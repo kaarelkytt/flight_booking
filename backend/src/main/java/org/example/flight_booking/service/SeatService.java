@@ -16,6 +16,10 @@ public class SeatService {
     }
 
     public List<Seat> availableSeats(Flight flight) {
-        return seatRepository.findAvailableByFlight(flight);
+        return seatRepository.findSeatsByFlightIdAndOccupiedIsFalse(flight.getId());
+    }
+
+    public List<Seat> allSeats(Flight flight) {
+        return seatRepository.findSeatsByFlightId(flight.getId());
     }
 }

@@ -4,7 +4,6 @@ import org.example.flight_booking.model.Flight;
 import org.example.flight_booking.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,7 +14,7 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<Flight> findFlights(String destination) {
-        return flightRepository.findByDestinationIATA(destination);
+    public List<Flight> findFlights(String departure) {
+        return flightRepository.findByDepartureIATA(departure);
     }
 }
