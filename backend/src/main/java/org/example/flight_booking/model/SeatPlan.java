@@ -1,13 +1,23 @@
 package org.example.flight_booking.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class SeatPlan {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @OneToMany
     private List<SeatRow> seatRows;
 
     public SeatPlan(List<SeatRow> seatRows) {
         this.seatRows = seatRows;
+    }
+
+    public SeatPlan() {
+
     }
 
     @Override

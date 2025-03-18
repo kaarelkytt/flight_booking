@@ -1,6 +1,14 @@
 package org.example.flight_booking.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Seat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String seatNumber;
@@ -17,6 +25,9 @@ public class Seat {
         this.windowSeat = windowSeat;
         this.extraLegroom = extraLegroom;
         this.nearExit = nearExit;
+    }
+
+    public Seat() {
     }
 
     public String getSeatNumber() {
