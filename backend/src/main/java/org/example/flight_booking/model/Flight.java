@@ -2,7 +2,6 @@ package org.example.flight_booking.model;
 
 
 import jakarta.persistence.*;
-import org.example.flight_booking.service.SeatPlanGenerator;
 
 import java.time.LocalDateTime;
 
@@ -29,8 +28,6 @@ public class Flight {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.aircraftType = aircraftType;
-        SeatPlanGenerator generator = new SeatPlanGenerator(this);
-        this.seatPlan = generator.generateSeatPlan();
     }
 
     public Flight() {
@@ -42,6 +39,10 @@ public class Flight {
 
     public String getAircraftType() {
         return aircraftType;
+    }
+
+    public void setSeatPlan(SeatPlan seatPlan) {
+        this.seatPlan = seatPlan;
     }
 
     @Override
