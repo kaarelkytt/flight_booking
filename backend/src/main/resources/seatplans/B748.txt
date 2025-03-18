@@ -1,0 +1,49 @@
+1 _BC|DEFG|HJ_ *
+2 _bc|defg|hj_ *
+3 _bc|defg|hj_ *
+4 Abc|defg|hjK *
+5 abc|defg|hjk *
+6 abc|defg|hjk *
+7 abc|defg|hjk
+8 abc|defg|hjk
+9 abc|defg|hjk
+10 abc|defg|hjk
+11 abc|defg|hjk
+12 abc|defg|hjk
+13 abc|defg|hjk
+14 abc|defg|hjk
+15 ABC|DEFG|HJK
+16 ABC|DEFG|HJK
+17 abc|defg|hjk
+18 abc|defg|hjk
+19 abc|defg|hjk
+20 abc|defg|hjk
+21 abc|defg|hjk
+22 abc|defg|hjk
+23 abc|defg|hjk
+24 abc|defg|hjk
+25 abc|defg|hjk
+26 abc|defg|hjk
+27 ABC|DEFG|HJK
+28 ABC|DEFG|HJK
+29 abc|defg|hjk
+30 abc|defg|hjk
+31 abc|defg|hjk
+32 abc|defg|hjk
+33 abc|defg|hjk
+34 abc|defg|hjk
+35 abc|defg|hjk
+36 abc|defg|hjk
+37 abc|defg|hjk
+38 abc|defg|hjk
+39 abc|defg|hjk
+40 abc|defg|hjk
+41 abc|defg|hjk
+42 abc|defg|hjk
+43 abc|defg|hjk
+44 abc|defg|hjk *
+45 _bc|defg|hj_ *
+46 _bc|defg|hj_ *
+47 _bc|defg|hj_ *
+48 ___|defg|___ *
+49 ___|defg|___ *

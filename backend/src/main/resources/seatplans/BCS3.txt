@@ -1,0 +1,31 @@
+1 __|D_F *
+2 A_|d_f *
+3 ac|def *
+4 ac|def *
+5 ac|def
+6 ac|def
+7 ac|def
+8 ac|def
+9 ac|def
+10 ac|def
+11 ac|def
+12 ac|def
+13 AC|DEF
+14 AC|DEF
+15 ac|def
+16 ac|def
+17 ac|def
+18 ac|def
+19 ac|def
+20 ac|def
+21 ac|def
+22 ac|def
+23 ac|def
+24 ac|def
+25 ac|def
+26 ac|def
+27 ac|def
+28 ac|def *
+29 ac|def *
+30 ac|def *
+31 ac|def *

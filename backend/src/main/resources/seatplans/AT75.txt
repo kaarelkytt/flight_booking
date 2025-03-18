@@ -1,0 +1,18 @@
+1 AB|CD *
+2 ab|cd *
+3 ab|cd *
+4 ab|cd
+5 ab|cd
+6 ab|cd
+7 ab|cd
+8 ab|cd
+9 ab|cd
+10 ab|cd
+11 ab|cd
+12 ab|cd
+13 ab|cd
+14 ab|cd
+15 ab|cd
+16 ab|cd *
+17 ab|cd *
+18 ab|__ *

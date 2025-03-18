@@ -1,0 +1,29 @@
+1 ABC|DEF *
+2 abc|def *
+3 abc|def *
+4 abc|def *
+5 abc|def
+6 abc|def
+7 abc|def
+8 abc|def
+9 abc|def
+10 abc|def
+11 ABC|DEF
+12 ABC|DEF
+13 abc|def
+14 abc|def
+15 abc|def
+16 abc|def
+17 abc|def
+18 abc|def
+19 abc|def
+20 abc|def
+21 abc|def
+22 abc|def
+23 abc|def
+24 abc|def
+25 abc|def
+26 abc|def *
+27 abc|def *
+28 abc|def *
+29 abc|def *

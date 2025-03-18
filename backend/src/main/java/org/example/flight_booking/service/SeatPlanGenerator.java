@@ -4,108 +4,57 @@ import org.example.flight_booking.model.NoSeat;
 import org.example.flight_booking.model.Seat;
 import org.example.flight_booking.model.SeatPlan;
 import org.example.flight_booking.model.SeatRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+@Service
 public class SeatPlanGenerator {
-    private static final Random random = new Random();
+    private static final Logger log = LoggerFactory.getLogger(SeatPlanGenerator.class);
+    private final Random random = new Random();
 
-    public static SeatPlan generateSeatPlan(String aircraftType){
-        return switch (aircraftType) {
-            case "BCS3" -> generateA220SeatPlan();
-            case "AT75" -> generateAT75SeatPlan();
-            case "A20N", "A320", "A321" -> generateA320SeatPlan();
-            case "B738", "B38M" -> generateB737SeatPlan();
-            case "B748" -> generateB747SeatPlan();
-            default -> generateRandomSeatPlan();
-        };
+    @Value("#{${seatPlanFileMap}}")
+    private Map<String, String> seatPlanFileMap = new HashMap<>();
+
+    public SeatPlan generateSeatPlan(String aircraftType){
+        if (seatPlanFileMap.containsKey(aircraftType)) {
+            return generateSeatPlanFromFile(seatPlanFileMap.get(aircraftType));
+        } else {
+            return generateRandomSeatPlan();
+        }
     }
 
-    private static SeatPlan generateA220SeatPlan() {
-        /* Airbus A220-300 plan
-        1  ___D_F ex
-        2  A__D_F ex(A)
-        3  AC_DEF
-        ...
-        13 AC_DEF ex
-        14 AC_DEF ex
-        ...
-        31 AC_DEF
-         */
-
-        return null;
-    }
-
-    private static SeatPlan generateAT75SeatPlan() {
-        /* ATR 72-500 plan
-        1  AB_CD ex
-        17 AB_CD
-        ...
-        18 AB___
-         */
-
-        return null;
-    }
-
-    private static SeatPlan generateA320SeatPlan() {
-        /* Airbus A320 Neo plan
-        1  ABC_DEF
-        2  abc_def
-        ...
-        11 ABC_DEF
-        12 ABC_DEF
-        ...
-        29 abc_def
-         */
-
-        return null;
-    }
-
-    private static SeatPlan generateB737SeatPlan() {
-        /* Boing 737-800 plan
-        1  ___|DEF
-        2  ABC|def
-        ...
-        15 ABC|DEF
-        16 _BC|DE_
-        17 abc|def
-        ...
-        32 abc|def
-         */
-
-        return null;
-    }
-
-    private static SeatPlan generateB747SeatPlan() {
-        /* Boing 747-8 plan
-        1  _BC|DEFG|HJ_ ex
-        ...
-        3  _BC|DEFG|HJ_
-        4  ABC|DEFG|HJK ex(AK)
-        ...
-        15 ABC|DEFG|HJK ex
-        16 ABC|DEFG|HJK ex
-        ...
-        27 ABC|DEFG|HJK ex
-        ...
-        44 ABC|DEFG|HJK
-        45 _BC|DEFG|HJ_
-        ...
-        47 _BC|DEFG|HJ_
-        48 ___|DEFG|___
-        49 ___|DEFG|___
-         */
-
-        return null;
-    }
-
-    public static SeatPlan generateRandomSeatPlan(){
-        List<String> aircraftTypes = Arrays.asList("BCS3", "AT75", "A20N", "B738", "B748");
+    public SeatPlan generateRandomSeatPlan(){
+        List<String> aircraftTypes = seatPlanFileMap.keySet().stream().toList();
         String randomType = aircraftTypes.get(random.nextInt(aircraftTypes.size()));
         return generateSeatPlan(randomType);
     }
 
-    private static SeatRow generateRow(int rowNumber, char[] seatLayout) {
+    private SeatPlan generateSeatPlanFromFile(String filePath) {
+        List<SeatRow> rows = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath, StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" ");
+                SeatRow row = createRow(parts[0], parts[1].toCharArray(), parts.length > 2);
+                rows.add(row);
+            }
+        } catch (Exception e) {
+            log.error("Error reading seat plan file: {}", e.getMessage());
+            return null;
+        }
+
+        return new SeatPlan(rows);
+    }
+
+    private SeatRow createRow(String rowNumber, char[] seatLayout, boolean nearExit) {
         List<Seat> seats = new ArrayList<>();
         List<Integer> aisles = new ArrayList<>();
 
@@ -118,10 +67,10 @@ public class SeatPlanGenerator {
                 seats.add(new NoSeat());
                 aisles.add(i);
             } else {
-                String seatNumber = rowNumber + Character.toString(Character.toUpperCase(seatType));
+                String seatNumber = rowNumber + Character.toUpperCase(seatType);
                 boolean hasExtraLegroom = Character.isUpperCase(seatType);
 
-                seats.add(new Seat(seatNumber, false, false, hasExtraLegroom, false));
+                seats.add(new Seat(seatNumber, false, false, hasExtraLegroom, nearExit));
             }
         }
 
@@ -139,10 +88,5 @@ public class SeatPlanGenerator {
 
 
         return new SeatRow(seats);
-    }
-
-    public static void main(String[] args) {
-        SeatPlan seatPlan = generateRandomSeatPlanTest();
-        System.out.println(seatPlan);
     }
 }
