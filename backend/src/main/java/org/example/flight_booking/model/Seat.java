@@ -1,9 +1,6 @@
 package org.example.flight_booking.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Seat {
@@ -11,14 +8,18 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     private String seatNumber;
     private boolean occupied;
     private boolean aisleSeat;
     private boolean windowSeat;
     private boolean extraLegroom;
     private boolean nearExit;
+    private long flightId;
 
-    public Seat(String seatNumber, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
+
+    public Seat(long flightId, String seatNumber, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
+        this.flightId = flightId;
         this.seatNumber = seatNumber;
         this.occupied = false;
         this.aisleSeat = aisleSeat;
@@ -62,16 +63,8 @@ public class Seat {
         return extraLegroom;
     }
 
-    public void setExtraLegroom(boolean extraLegroom) {
-        this.extraLegroom = extraLegroom;
-    }
-
     public boolean isNearExit() {
         return nearExit;
-    }
-
-    public void setNearExit(boolean nearExit) {
-        this.nearExit = nearExit;
     }
 
     @Override

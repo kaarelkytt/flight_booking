@@ -1,39 +1,39 @@
 package org.example.flight_booking.service;
 
-import org.example.flight_booking.model.NoSeat;
-import org.example.flight_booking.model.Seat;
-import org.example.flight_booking.model.SeatPlan;
-import org.example.flight_booking.model.SeatRow;
+import org.example.flight_booking.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-@Service
 public class SeatPlanGenerator {
     private static final Logger log = LoggerFactory.getLogger(SeatPlanGenerator.class);
     private final Random random = new Random();
+    private final Flight flight;
 
     @Value("#{${seatPlanFileMap}}")
     private Map<String, String> seatPlanFileMap = new HashMap<>();
 
-    public SeatPlan generateSeatPlan(String aircraftType){
-        if (seatPlanFileMap.containsKey(aircraftType)) {
-            return generateSeatPlanFromFile(seatPlanFileMap.get(aircraftType));
+    public SeatPlanGenerator(Flight flight) {
+        this.flight = flight;
+    }
+
+    public SeatPlan generateSeatPlan(){
+        if (seatPlanFileMap.containsKey(flight.getAircraftType())) {
+            return generateSeatPlanFromFile(seatPlanFileMap.get(flight.getAircraftType()));
         } else {
             return generateRandomSeatPlan();
         }
     }
 
-    public SeatPlan generateRandomSeatPlan(){
+    private SeatPlan generateRandomSeatPlan(){
         List<String> aircraftTypes = seatPlanFileMap.keySet().stream().toList();
         String randomType = aircraftTypes.get(random.nextInt(aircraftTypes.size()));
-        return generateSeatPlan(randomType);
+        return generateSeatPlanFromFile(seatPlanFileMap.get(randomType));
     }
 
     private SeatPlan generateSeatPlanFromFile(String filePath) {
@@ -70,7 +70,7 @@ public class SeatPlanGenerator {
                 String seatNumber = rowNumber + Character.toUpperCase(seatType);
                 boolean hasExtraLegroom = Character.isUpperCase(seatType);
 
-                seats.add(new Seat(seatNumber, false, false, hasExtraLegroom, nearExit));
+                seats.add(new Seat(flight.getId(), seatNumber, false, false, hasExtraLegroom, nearExit));
             }
         }
 
