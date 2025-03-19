@@ -22,56 +22,59 @@ public class SeatPlanGenerator {
 
     public void generateSeatPlan(Flight flight){
         if (seatPlanFileMap.containsKey(flight.getAircraftType())) {
-            flight.setSeatPlan(generateSeatPlanFromFile(seatPlanFileMap.get(flight.getAircraftType()), flight.getId()));
+            flight.setSeatPlan(generateSeatPlanFromFile(seatPlanFileMap.get(flight.getAircraftType())));
         } else {
-            flight.setSeatPlan(generateRandomSeatPlan(flight.getId()));
+            flight.setSeatPlan(generateRandomSeatPlan());
         }
     }
 
-    private SeatPlan generateRandomSeatPlan(long flightId){
+    private SeatPlan generateRandomSeatPlan() {
         List<String> aircraftTypes = seatPlanFileMap.keySet().stream().toList();
         String randomType = aircraftTypes.get(random.nextInt(aircraftTypes.size()));
-        return generateSeatPlanFromFile(seatPlanFileMap.get(randomType), flightId);
+        return generateSeatPlanFromFile(seatPlanFileMap.get(randomType));
     }
 
-    private SeatPlan generateSeatPlanFromFile(String filePath, long flightId){
-        List<SeatRow> rows = new ArrayList<>();
+    private SeatPlan generateSeatPlanFromFile(String filePath) {
+        SeatPlan seatPlan = new SeatPlan();
 
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
              BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8))){
+
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
-                SeatRow row = createRow(parts[0], parts[1].toCharArray(), parts.length > 2, flightId);
-                rows.add(row);
+                SeatRow row = createRow(parts[0], parts[1].toCharArray(), parts.length > 2);
+                seatPlan.addSeatRow(row);
             }
         } catch (Exception e) {
             log.error("Error reading seat plan file: {}", e.getMessage());
-            return null;
+            return seatPlan;
         }
 
-        return new SeatPlan(rows);
+        return seatPlan;
     }
 
-    private SeatRow createRow(String rowNumber, char[] seatLayout, boolean nearExit, long flightId) {
-        List<Seat> seats = new ArrayList<>();
+    private SeatRow createRow(String rowNumber, char[] seatLayout, boolean nearExit) {
+        SeatRow row = new SeatRow();
         List<Integer> aisles = new ArrayList<>();
 
         // Create seats
         for (int i = 0; i < seatLayout.length; i++) {
             char seatType = seatLayout[i];
             if (seatType == '_') {
-                seats.add(new NoSeat(flightId));
+                row.addSeat(new NoSeat());
             } else if (seatType == '|' ) {
-                seats.add(new NoSeat(flightId));
+                row.addSeat(new NoSeat());
                 aisles.add(i);
             } else {
                 String seatNumber = rowNumber + Character.toUpperCase(seatType);
                 boolean hasExtraLegroom = Character.isUpperCase(seatType);
 
-                seats.add(new Seat(flightId, seatNumber, false, false, hasExtraLegroom, nearExit));
+                row.addSeat(new Seat(seatNumber, false, false, hasExtraLegroom, nearExit));
             }
         }
+
+        List<Seat> seats = row.getSeats();
 
         // Mark aisle seats
         for (Integer i : aisles) {
@@ -85,7 +88,6 @@ public class SeatPlanGenerator {
         seats.getFirst().setWindowSeat(true);
         seats.getLast().setWindowSeat(true);
 
-
-        return new SeatRow(seats);
+        return row;
     }
 }

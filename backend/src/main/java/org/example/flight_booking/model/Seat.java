@@ -8,6 +8,9 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @ManyToOne
+    @JoinColumn(name = "seat_row_id")
+    private SeatRow seatRow;
 
     private String seatNumber;
     private boolean occupied;
@@ -15,10 +18,8 @@ public class Seat {
     private boolean windowSeat;
     private boolean extraLegroom;
     private boolean nearExit;
-    private long flightId;
 
-    public Seat(long flightId, String seatNumber, boolean occupied, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
-        this.flightId = flightId;
+    public Seat(String seatNumber, boolean occupied, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
         this.seatNumber = seatNumber;
         this.occupied = occupied;
         this.aisleSeat = aisleSeat;
@@ -27,11 +28,15 @@ public class Seat {
         this.nearExit = nearExit;
     }
 
-    public Seat(long flightId, String seatNumber, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
-        this(flightId, seatNumber, false, aisleSeat, windowSeat, extraLegroom, nearExit);
+    public Seat(String seatNumber, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
+        this(seatNumber, false, aisleSeat, windowSeat, extraLegroom, nearExit);
     }
 
     public Seat() {
+    }
+
+    public void setSeatRow(SeatRow seatRow) {
+        this.seatRow = seatRow;
     }
 
     public String getSeatNumber() {
