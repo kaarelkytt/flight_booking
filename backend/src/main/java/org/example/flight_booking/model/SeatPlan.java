@@ -20,6 +20,10 @@ public class SeatPlan {
 
     }
 
+    public List<SeatRow> getSeatRows() {
+        return seatRows;
+    }
+
     @Override
     public String toString() {
         return "SeatPlan{" +

@@ -37,6 +37,30 @@ public class Flight {
         return id;
     }
 
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getDepartureIATA() {
+        return departureIATA;
+    }
+
+    public String getDestinationIATA() {
+        return destinationIATA;
+    }
+
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public SeatPlan getSeatPlan() {
+        return seatPlan;
+    }
+
     public String getAircraftType() {
         return aircraftType;
     }

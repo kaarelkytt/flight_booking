@@ -17,15 +17,18 @@ public class Seat {
     private boolean nearExit;
     private long flightId;
 
-
-    public Seat(long flightId, String seatNumber, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
+    public Seat(long flightId, String seatNumber, boolean occupied, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
         this.flightId = flightId;
         this.seatNumber = seatNumber;
-        this.occupied = false;
+        this.occupied = occupied;
         this.aisleSeat = aisleSeat;
         this.windowSeat = windowSeat;
         this.extraLegroom = extraLegroom;
         this.nearExit = nearExit;
+    }
+
+    public Seat(long flightId, String seatNumber, boolean aisleSeat, boolean windowSeat, boolean extraLegroom, boolean nearExit) {
+        this(flightId, seatNumber, false, aisleSeat, windowSeat, extraLegroom, nearExit);
     }
 
     public Seat() {
