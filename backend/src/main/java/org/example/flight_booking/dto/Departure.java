@@ -8,7 +8,6 @@ public class Departure {
     private static final Logger log = LoggerFactory.getLogger(Departure.class);
     private String iata;
     private String scheduled;
-    private String timezone;
 
     public String getIata() {
         return iata;
@@ -16,9 +15,5 @@ public class Departure {
 
     public String getScheduled() {
         return scheduled;
-    }
-
-    public String getTimezone() {
-        return (timezone != null && timezone.contains("/")) ? timezone.split("/")[1] : "UNKNOWN";
     }
 }

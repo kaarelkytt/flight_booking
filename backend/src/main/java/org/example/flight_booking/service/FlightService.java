@@ -17,12 +17,14 @@ public class FlightService {
     private final FlightRepository flightRepository;
     private final FlightApiService flightApiService;
     private final SeatPlanGenerator seatPlanGenerator;
+    private final IataCityService iataCityService;
     private final Random random = new Random();
 
-    public FlightService(FlightRepository flightRepository, FlightApiService flightApiService, SeatPlanGenerator seatPlanGenerator) {
+    public FlightService(FlightRepository flightRepository, FlightApiService flightApiService, SeatPlanGenerator seatPlanGenerator, IataCityService iataCityService) {
         this.flightRepository = flightRepository;
         this.flightApiService = flightApiService;
         this.seatPlanGenerator = seatPlanGenerator;
+        this.iataCityService = iataCityService;
     }
 
     public List<Flight> findFlights(String departure) {
@@ -31,6 +33,14 @@ public class FlightService {
 
     public void saveFlight(Flight flight) {
         flightRepository.save(flight);
+    }
+
+    private boolean existsByFlightNumber(String flightNumber) {
+        return flightRepository.existsByFlightNumber(flightNumber);
+    }
+
+    public List<String> findAllAirports() {
+        return flightRepository.findAllUniqueAirportIataCodes();
     }
 
     public void fetchAndSaveFlights() {
@@ -49,8 +59,8 @@ public class FlightService {
                     apiFlight.getFlight().getIata(),
                     apiFlight.getDeparture().getIata(),
                     apiFlight.getArrival().getIata(),
-                    apiFlight.getDeparture().getTimezone(),
-                    apiFlight.getArrival().getTimezone(),
+                    iataCityService.getCityName(apiFlight.getDeparture().getIata()),
+                    iataCityService.getCityName(apiFlight.getArrival().getIata()),
                     OffsetDateTime.parse(apiFlight.getDeparture().getScheduled()).plusDays(randomDays),
                     OffsetDateTime.parse(apiFlight.getArrival().getScheduled()).plusDays(randomDays),
                     apiFlight.getAircraft() != null ? apiFlight.getAircraft().getIata() : "UNKNOWN"
@@ -71,7 +81,9 @@ public class FlightService {
             return false;
         }
 
-        if (apiFlight.getFlight().getIata() == null || apiFlight.getDeparture().getIata() == null || apiFlight.getArrival().getIata() == null) {
+        if (apiFlight.getFlight().getIata() == null ||
+                apiFlight.getDeparture().getIata() == null ||
+                apiFlight.getArrival().getIata() == null) {
             log.info("Skipping flight because of missing IATA code.");
             return false;
         }
@@ -81,15 +93,12 @@ public class FlightService {
             return false;
         }
 
-        if (apiFlight.getDeparture().getTimezone().equals("UNKNOWN") || apiFlight.getArrival().getTimezone().equals("UNKNOWN")) {
-            log.info("Skipping flight {} because of missing timezone.", apiFlight.getFlight().getIata());
+        if (iataCityService.getCityName(apiFlight.getDeparture().getIata()).equals("UNKNOWN") ||
+                iataCityService.getCityName(apiFlight.getArrival().getIata()).equals("UNKNOWN")) {
+            log.info("Skipping flight {} because of missing city.", apiFlight.getFlight().getIata());
             return false;
         }
 
         return true;
-    }
-
-    private boolean existsByFlightNumber(String flightNumber) {
-        return flightRepository.existsByFlightNumber(flightNumber);
     }
 }
