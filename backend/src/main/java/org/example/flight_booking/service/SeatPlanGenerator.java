@@ -15,26 +15,8 @@ import java.util.*;
 @Service
 public class SeatPlanGenerator {
     private static final Logger log = LoggerFactory.getLogger(SeatPlanGenerator.class);
-    private final Random random = new Random();
 
-    @Value("#{${flight.seatplan.filemap}}")
-    private Map<String, String> seatPlanFileMap;
-
-    public void generateSeatPlan(Flight flight){
-        if (seatPlanFileMap.containsKey(flight.getAircraftType())) {
-            flight.setSeatPlan(generateSeatPlanFromFile(seatPlanFileMap.get(flight.getAircraftType())));
-        } else {
-            flight.setSeatPlan(generateRandomSeatPlan());
-        }
-    }
-
-    private SeatPlan generateRandomSeatPlan() {
-        List<String> aircraftTypes = seatPlanFileMap.keySet().stream().toList();
-        String randomType = aircraftTypes.get(random.nextInt(aircraftTypes.size()));
-        return generateSeatPlanFromFile(seatPlanFileMap.get(randomType));
-    }
-
-    private SeatPlan generateSeatPlanFromFile(String filePath) {
+    public SeatPlan generateSeatPlanFromFile(String filePath) {
         SeatPlan seatPlan = new SeatPlan();
 
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);

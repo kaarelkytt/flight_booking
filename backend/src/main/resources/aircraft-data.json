@@ -1,0 +1,20 @@
+{
+  "AT75": { "seatPlanFile": "seatplans/2-2s.txt", "maxFlightTime": 120 },
+  "E190": { "seatPlanFile": "seatplans/2-2l.txt", "maxFlightTime": 240 },
+  "E75L": { "seatPlanFile": "seatplans/2-2l.txt", "maxFlightTime": 240 },
+  "BCS3": { "seatPlanFile": "seatplans/2-3.txt", "maxFlightTime": 300 },
+  "A20N": { "seatPlanFile": "seatplans/3-3s.txt", "maxFlightTime": 360 },
+  "A319": { "seatPlanFile": "seatplans/3-3s.txt", "maxFlightTime": 360 },
+  "A320": { "seatPlanFile": "seatplans/3-3s.txt", "maxFlightTime": 360 },
+  "A321": { "seatPlanFile": "seatplans/3-3s.txt", "maxFlightTime": 400 },
+  "A21N": { "seatPlanFile": "seatplans/3-3s.txt", "maxFlightTime": 400 },
+  "B738": { "seatPlanFile": "seatplans/3-3l.txt", "maxFlightTime": 420 },
+  "B739": { "seatPlanFile": "seatplans/3-3l.txt", "maxFlightTime": 450 },
+  "B757": { "seatPlanFile": "seatplans/3-3l.txt", "maxFlightTime": 500 },
+  "B38M": { "seatPlanFile": "seatplans/3-3l.txt", "maxFlightTime": 450 },
+  "A359": { "seatPlanFile": "seatplans/3-3-3.txt", "maxFlightTime": 900 },
+  "B748": { "seatPlanFile": "seatplans/3-4-3.txt", "maxFlightTime": 960 },
+  "B77L": { "seatPlanFile": "seatplans/3-3-3.txt", "maxFlightTime": 900 },
+  "B788": { "seatPlanFile": "seatplans/3-3-3.txt", "maxFlightTime": 900 },
+  "B753": { "seatPlanFile": "seatplans/3-3l.txt", "maxFlightTime": 500 }
+}

@@ -23,18 +23,21 @@ public class FlightService {
     private final SeatPlanGenerator seatPlanGenerator;
     private final IataCityService iataCityService;
     private final FlightPricingService flightPricingService;
+    private final AircraftDataService aircraftDataService;
     private final Random random = new Random();
 
     public FlightService(FlightRepository flightRepository,
                          FlightApiService flightApiService,
                          SeatPlanGenerator seatPlanGenerator,
                          IataCityService iataCityService,
-                         FlightPricingService flightPricingService) {
+                         FlightPricingService flightPricingService,
+                         AircraftDataService aircraftDataService) {
         this.flightRepository = flightRepository;
         this.flightApiService = flightApiService;
         this.seatPlanGenerator = seatPlanGenerator;
         this.iataCityService = iataCityService;
         this.flightPricingService = flightPricingService;
+        this.aircraftDataService = aircraftDataService;
     }
 
     public List<Flight> findFlights(LocalDate startDate, LocalDate endDate,
@@ -56,6 +59,10 @@ public class FlightService {
         return flightRepository.findAllUniqueAirportIataCodes();
     }
 
+    public List<Object[]> findAllAircrafts() {
+        return flightRepository.findAircraftTypesWithCount();
+    }
+
     public void fetchAndSaveFlights() {
         List<FlightData> flightsFromApi = flightApiService.fetchFlights();
         log.info("Processing {} flights from API.", flightsFromApi.size());
@@ -72,10 +79,18 @@ public class FlightService {
             ZonedDateTime departureTime = convertToZonedTime(apiFlight.getDeparture().getScheduled(), apiFlight.getDeparture().getTimezone());
             ZonedDateTime arrivalTime = convertToZonedTime(apiFlight.getArrival().getScheduled(), apiFlight.getArrival().getTimezone());
             int durationMinutes = (int) java.time.Duration.between(departureTime, arrivalTime).toMinutes();
+            String aircraftType;
+
+            if (apiFlight.getAircraft() != null &&
+                    aircraftDataService.isValidAircraftType(apiFlight.getAircraft().getIata())){
+                aircraftType = apiFlight.getAircraft().getIata();
+            } else{
+                aircraftType = aircraftDataService.findBestAircraft(durationMinutes);
+            }
 
             Flight flight = new Flight(
                     apiFlight.getFlight().getIata(),
-                    apiFlight.getAircraft() != null ? apiFlight.getAircraft().getIata() : "UNKNOWN",
+                    aircraftType,
                     apiFlight.getDeparture().getIata(),
                     apiFlight.getArrival().getIata(),
                     iataCityService.getCityName(apiFlight.getDeparture().getIata()),
@@ -85,7 +100,8 @@ public class FlightService {
                     durationMinutes,
                     flightPricingService.calculateInitialPrice(durationMinutes)
             );
-            seatPlanGenerator.generateSeatPlan(flight);
+
+            flight.setSeatPlan(seatPlanGenerator.generateSeatPlanFromFile(aircraftDataService.getSeatPlanFile(aircraftType)));
             // TODO - add occupied seats
             flightRepository.save(flight);
             savedFlightsCount++;
