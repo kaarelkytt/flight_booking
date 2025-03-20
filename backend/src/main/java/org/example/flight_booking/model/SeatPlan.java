@@ -34,6 +34,18 @@ public class SeatPlan {
         seatRows.add(row);
     }
 
+    public List<Seat> getAllSeats() {
+        List<Seat> seats = new ArrayList<>();
+        for (SeatRow row : seatRows) {
+            for (Seat seat : row.getSeats()) {
+                if (!(seat instanceof NoSeat)){
+                    seats.add(seat);
+                }
+            }
+        }
+        return seats;
+    }
+
     @Override
     public String toString() {
         return "SeatPlan{" +

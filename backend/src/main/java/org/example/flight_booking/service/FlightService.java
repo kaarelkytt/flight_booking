@@ -4,6 +4,8 @@ import org.example.flight_booking.dto.FlightData;
 import org.example.flight_booking.model.Flight;
 import org.example.flight_booking.repository.FlightRepository;
 import org.example.flight_booking.specification.FlightSpecification;
+import org.example.flight_booking.utils.DateTimeUtil;
+import org.example.flight_booking.utils.SeatPlanGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,31 +15,28 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
 
-import static org.example.flight_booking.utils.DateTimeUtil.convertToZonedTime;
-
 @Service
 public class FlightService {
     private static final Logger log = LoggerFactory.getLogger(FlightService.class);
     private final FlightRepository flightRepository;
     private final FlightApiService flightApiService;
-    private final SeatPlanGenerator seatPlanGenerator;
     private final IataCityService iataCityService;
     private final FlightPricingService flightPricingService;
     private final AircraftDataService aircraftDataService;
+    private final SeatOccupancyService seatOccupancyService;
     private final Random random = new Random();
 
     public FlightService(FlightRepository flightRepository,
                          FlightApiService flightApiService,
-                         SeatPlanGenerator seatPlanGenerator,
                          IataCityService iataCityService,
                          FlightPricingService flightPricingService,
-                         AircraftDataService aircraftDataService) {
+                         AircraftDataService aircraftDataService, SeatOccupancyService seatOccupancyService) {
         this.flightRepository = flightRepository;
         this.flightApiService = flightApiService;
-        this.seatPlanGenerator = seatPlanGenerator;
         this.iataCityService = iataCityService;
         this.flightPricingService = flightPricingService;
         this.aircraftDataService = aircraftDataService;
+        this.seatOccupancyService = seatOccupancyService;
     }
 
     public List<Flight> findFlights(LocalDate startDate, LocalDate endDate,
@@ -76,8 +75,8 @@ public class FlightService {
 
             int randomDays = random.nextInt(30) + 1;
 
-            ZonedDateTime departureTime = convertToZonedTime(apiFlight.getDeparture().getScheduled(), apiFlight.getDeparture().getTimezone());
-            ZonedDateTime arrivalTime = convertToZonedTime(apiFlight.getArrival().getScheduled(), apiFlight.getArrival().getTimezone());
+            ZonedDateTime departureTime = DateTimeUtil.convertToZonedTime(apiFlight.getDeparture().getScheduled(), apiFlight.getDeparture().getTimezone());
+            ZonedDateTime arrivalTime = DateTimeUtil.convertToZonedTime(apiFlight.getArrival().getScheduled(), apiFlight.getArrival().getTimezone());
             int durationMinutes = (int) java.time.Duration.between(departureTime, arrivalTime).toMinutes();
             String aircraftType;
 
@@ -101,8 +100,9 @@ public class FlightService {
                     flightPricingService.calculateInitialPrice(durationMinutes)
             );
 
-            flight.setSeatPlan(seatPlanGenerator.generateSeatPlanFromFile(aircraftDataService.getSeatPlanFile(aircraftType)));
-            // TODO - add occupied seats
+            flight.setSeatPlan(SeatPlanGenerator.generateFromFile(aircraftDataService.getSeatPlanFile(aircraftType)));
+            seatOccupancyService.fillSeatsRandomly(flight);
+
             flightRepository.save(flight);
             savedFlightsCount++;
 

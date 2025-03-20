@@ -1,25 +1,27 @@
-package org.example.flight_booking.service;
+package org.example.flight_booking.utils;
 
-import org.example.flight_booking.model.*;
+import org.example.flight_booking.model.NoSeat;
+import org.example.flight_booking.model.Seat;
+import org.example.flight_booking.model.SeatPlan;
+import org.example.flight_booking.model.SeatRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-@Service
 public class SeatPlanGenerator {
     private static final Logger log = LoggerFactory.getLogger(SeatPlanGenerator.class);
 
-    public SeatPlan generateSeatPlanFromFile(String filePath) {
+    public static SeatPlan generateFromFile(String filePath) {
         SeatPlan seatPlan = new SeatPlan();
 
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        try (InputStream inputStream = SeatPlanGenerator.class.getClassLoader().getResourceAsStream(filePath);
              BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8))){
 
             String line;
@@ -36,7 +38,7 @@ public class SeatPlanGenerator {
         return seatPlan;
     }
 
-    private SeatRow createRow(String rowNumber, char[] seatLayout, boolean nearExit) {
+    private static SeatRow createRow(String rowNumber, char[] seatLayout, boolean nearExit) {
         SeatRow row = new SeatRow();
         List<Integer> aisles = new ArrayList<>();
 
