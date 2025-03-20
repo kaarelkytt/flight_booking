@@ -3,7 +3,7 @@ package org.example.flight_booking.model;
 
 import jakarta.persistence.*;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 public class Flight {
@@ -16,14 +16,20 @@ public class Flight {
     private String destinationIATA;
     private String departureCity;
     private String destinationCity;
-    private OffsetDateTime departureTime;
-    private OffsetDateTime arrivalTime;
+    private ZonedDateTime departureTime;
+    private ZonedDateTime arrivalTime;
+    private int durationMinutes;
     private String aircraftType;
+    private double initialPrice;
 
     @OneToOne(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private SeatPlan seatPlan;
 
-    public Flight(String flightNumber, String departureIATA, String destinationIATA, String departureCity, String destinationCity, OffsetDateTime departureTime, OffsetDateTime arrivalTime, String aircraftType) {
+    public Flight(String flightNumber, String aircraftType,
+                  String departureIATA, String destinationIATA,
+                  String departureCity, String destinationCity,
+                  ZonedDateTime departureTime, ZonedDateTime arrivalTime,
+                  int durationMinutes, double initialPrice) {
         this.flightNumber = flightNumber;
         this.departureIATA = departureIATA;
         this.destinationIATA = destinationIATA;
@@ -31,7 +37,9 @@ public class Flight {
         this.destinationCity = destinationCity;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
+        this.durationMinutes = durationMinutes;
         this.aircraftType = aircraftType;
+        this.initialPrice = initialPrice;
     }
 
     public Flight() {
@@ -61,12 +69,16 @@ public class Flight {
         return destinationCity;
     }
 
-    public OffsetDateTime getDepartureTime() {
+    public ZonedDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public OffsetDateTime getArrivalTime() {
+    public ZonedDateTime getArrivalTime() {
         return arrivalTime;
+    }
+
+    public int getDurationMinutes() {
+        return durationMinutes;
     }
 
     public SeatPlan getSeatPlan() {
@@ -75,6 +87,10 @@ public class Flight {
 
     public String getAircraftType() {
         return aircraftType;
+    }
+
+    public double getInitialPrice() {
+        return initialPrice;
     }
 
     public void setSeatPlan(SeatPlan seatPlan) {

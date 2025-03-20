@@ -17,7 +17,7 @@ public class SeatPlanGenerator {
     private static final Logger log = LoggerFactory.getLogger(SeatPlanGenerator.class);
     private final Random random = new Random();
 
-    @Value("#{${seatPlanFileMap}}")
+    @Value("#{${flight.seatplan.filemap}}")
     private Map<String, String> seatPlanFileMap;
 
     public void generateSeatPlan(Flight flight){

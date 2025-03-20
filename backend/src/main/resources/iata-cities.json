@@ -64,6 +64,7 @@
   "LHR": "London (Heathrow)",
   "LIN": "Milan (Linate)",
   "LIS": "Lisbon",
+  "LPA": "Gran Canaria",
   "LTN": "London (Luton)",
   "LYS": "Lyon",
   "MAD": "Madrid",
@@ -109,5 +110,17 @@
   "VRN": "Verona",
   "WAW": "Warsaw",
   "XRY": "Jerez",
-  "ZRH": "Zurich"
+  "ZRH": "Zurich",
+  "KEF": "Reykjavík",
+  "AYT": "Antalya",
+  "BRI": "Bari",
+  "PRN": "Pristina",
+  "SZG": "Salzburg",
+  "JED": "Jeddah",
+  "CGO": "Zhengzhou",
+  "LEJ": "Leipzig",
+  "CMN": "Casablanca",
+  "BSL": "Basel",
+  "SJJ": "Sarajevo",
+  "TLV": "Tel Aviv"
 }
