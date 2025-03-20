@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -20,8 +19,8 @@ public class SeatOccupancyService {
     @Value("${flight.occupancy.max}")
     private double maxOccupancy;
 
-    @Value("${flight.occupancy.threshold.days}")
-    private int occupancyThresholdDays;
+    @Value("${flight.schedule.days}")
+    private int scheduledDays;
 
     public void fillSeatsRandomly(Flight flight) {
         double fillPercentage = calculateFillPercentage(flight.getDepartureTime().toLocalDate());
@@ -38,10 +37,10 @@ public class SeatOccupancyService {
     private double calculateFillPercentage(LocalDate flightDate) {
         int daysUntilFlight = (int) java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), flightDate);
 
-        if (daysUntilFlight >= occupancyThresholdDays) {
+        if (daysUntilFlight >= scheduledDays) {
             return minOccupancy;
         } else {
-            double ratio = (double) daysUntilFlight / occupancyThresholdDays;
+            double ratio = (double) daysUntilFlight / scheduledDays;
             return minOccupancy + (maxOccupancy - minOccupancy) * (1 - ratio);
         }
     }

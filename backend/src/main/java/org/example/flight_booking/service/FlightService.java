@@ -8,6 +8,7 @@ import org.example.flight_booking.utils.DateTimeUtil;
 import org.example.flight_booking.utils.SeatPlanGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,6 +26,9 @@ public class FlightService {
     private final AircraftDataService aircraftDataService;
     private final SeatOccupancyService seatOccupancyService;
     private final Random random = new Random();
+
+    @Value("${flight.schedule.days}")
+    private int scheduledDays;
 
     public FlightService(FlightRepository flightRepository,
                          FlightApiService flightApiService,
@@ -73,7 +77,7 @@ public class FlightService {
                 continue;
             }
 
-            int randomDays = random.nextInt(30) + 1;
+            int randomDays = random.nextInt(scheduledDays) + 1;
 
             ZonedDateTime departureTime = DateTimeUtil.convertToZonedTime(apiFlight.getDeparture().getScheduled(), apiFlight.getDeparture().getTimezone());
             ZonedDateTime arrivalTime = DateTimeUtil.convertToZonedTime(apiFlight.getArrival().getScheduled(), apiFlight.getArrival().getTimezone());
