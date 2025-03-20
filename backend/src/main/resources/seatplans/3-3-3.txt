@@ -1,0 +1,42 @@
+1 _BC|DEF|GH_
+2 _bc|def|gh_
+3 _bc|def|gh_ *
+4 Abc|def|ghK *
+5 abc|def|ghk *
+6 abc|def|ghk *
+7 abc|def|ghk *
+8 abc|def|ghk *
+9 abc|def|ghk *
+10 abc|def|ghk *
+11 abc|def|ghk
+12 abc|def|ghk
+13 abc|def|ghk
+14 abc|def|ghk
+15 abc|def|ghk
+16 ABC|DEF|GHK
+17 abc|def|ghk
+18 abc|def|ghk
+19 abc|def|ghk
+20 abc|def|ghk
+21 abc|def|ghk
+22 abc|def|ghk
+23 abc|def|ghk
+24 abc|def|ghk *
+25 abc|def|ghk *
+26 abc|def|ghk *
+27 ABC|DEF|GHK *
+28 ABC|DEF|GHK *
+29 abc|def|ghk *
+30 abc|def|ghk *
+31 abc|def|ghk *
+32 abc|def|ghk
+33 abc|def|ghk
+34 abc|def|ghk
+35 abc|def|ghk
+36 abc|def|ghk
+37 abc|def|ghk
+38 abc|def|ghk
+39 abc|def|ghk
+40 abc|def|ghk
+41 abc|def|ghk
+41 ___|def|___
