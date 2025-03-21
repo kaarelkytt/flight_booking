@@ -27,6 +27,11 @@ public class FlightController {
         return ResponseEntity.ok(flightService.findAllAirports());
     }
 
+    @GetMapping("/aircrafts")
+    public ResponseEntity<List<Object[]>> findAllAircrafts() {
+        return ResponseEntity.ok(flightService.findAllAircrafts());
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<Flight>> findFlights(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,

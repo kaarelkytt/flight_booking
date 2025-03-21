@@ -19,4 +19,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long>, JpaSpecif
 
     @Query("SELECT DISTINCT f.departureIATA FROM Flight f UNION SELECT DISTINCT f.destinationIATA FROM Flight f")
     List<String> findAllUniqueAirportIataCodes();
+
+    @Query("SELECT f.aircraftType, COUNT(f) FROM Flight f GROUP BY f.aircraftType ORDER BY COUNT(f) DESC")
+    List<Object[]> findAircraftTypesWithCount();
 }
