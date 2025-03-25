@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -59,6 +60,10 @@ public class FlightService {
 
     private boolean existsByFlightNumber(String flightNumber) {
         return flightRepository.existsByFlightNumber(flightNumber);
+    }
+
+    public Optional<Flight> getFlightById(Long flightId) {
+        return flightRepository.findById(flightId);
     }
 
     public List<String> findAllAirports() {
