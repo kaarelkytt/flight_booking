@@ -9,6 +9,8 @@ import org.example.flight_booking.utils.SeatPlanGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -43,11 +45,12 @@ public class FlightService {
         this.seatOccupancyService = seatOccupancyService;
     }
 
-    public List<Flight> findFlights(LocalDate startDate, LocalDate endDate,
+    public Page<Flight> findFlights(LocalDate startDate, LocalDate endDate,
                                     String departure, String destination,
                                     Integer minDuration, Integer maxDuration,
-                                    Double minPrice, Double maxPrice) {
-        return flightRepository.findAll(FlightSpecification.withFilters(startDate, endDate, departure, destination, minDuration, maxDuration, minPrice, maxPrice));
+                                    Double minPrice, Double maxPrice,
+                                    Pageable pageable) {
+        return flightRepository.findAll(FlightSpecification.withFilters(startDate, endDate, departure, destination, minDuration, maxDuration, minPrice, maxPrice), pageable);
     }
 
     public void saveFlight(Flight flight) {
