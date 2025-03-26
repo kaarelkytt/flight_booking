@@ -1,16 +1,18 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useState } from "react";
 import FlightList from "./components/FlightList";
 import SeatMap from "./components/SeatMap";
 
-function App() {
+export default function App() {
+    const [selectedFlight, setSelectedFlight] = useState<number | null>(null);
+
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<FlightList />} />
-                <Route path="/seats/:flightId" element={<SeatMap />} />
-            </Routes>
-        </Router>
+        <div className="container">
+            <div className="left-panel">
+                <FlightList onSelect={setSelectedFlight} />
+            </div>
+            <div className="right-panel">
+                {selectedFlight && <SeatMap flightId={selectedFlight} />}
+            </div>
+        </div>
     );
 }
-
-export default App;
