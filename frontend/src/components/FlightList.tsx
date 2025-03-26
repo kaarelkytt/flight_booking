@@ -1,8 +1,10 @@
+import "../styles/Pagination.css";
 import ReactPaginate from "react-paginate";
 import { useEffect, useState } from "react";
 import { fetchFlights } from "../api";
 import { FlightPage } from "../types";
 import Filters from "./Filters";
+import FlightRow from "./FlightRow";
 
 export default function FlightList({ onSelect }: { onSelect: (id: number) => void }) {
     const [flightPage, setFlightPage] = useState<FlightPage | null>(null);
@@ -19,10 +21,19 @@ export default function FlightList({ onSelect }: { onSelect: (id: number) => voi
         <div>
             <Filters onSearch={setQuery} />
 
-            {flightPage?.content.map(flight => (
-                <div key={flight.id} onClick={() => onSelect(flight.id)}>
-                    {flight.departureCity} → {flight.destinationCity} ({flight.flightNumber})
-                </div>
+            {flightPage?.content.map((flight, index) => (
+                <FlightRow
+                    key={flight.id}
+                    index={index + 1}
+                    flightNumber={flight.flightNumber}
+                    departureCity={flight.departureCity}
+                    destinationCity={flight.destinationCity}
+                    departureTime={flight.departureTime}
+                    arrivalTime={flight.arrivalTime}
+                    durationMinutes={flight.durationMinutes}
+                    initialPrice={flight.initialPrice}
+                    onSelect={() => onSelect(flight.id)}
+                />
             ))}
 
             <ReactPaginate

@@ -1,3 +1,4 @@
+import "../styles/SeatMap.css";
 import { useEffect, useState } from "react";
 import { fetchSeatMap } from "../api";
 import { SeatPlan } from "../types";
