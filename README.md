@@ -22,4 +22,5 @@
 | 4h      | Andmeklasside loomine: Andmeklasside defineerimine ja arendamine, et võimaldada andmete korrektne salvestamine ja töötlemine.                                                                                         |
 | 6h      | Lennu isendi loomise protsessi väljatöötamine: Protsessi kavandamine ja rakendamine, mis võimaldab lennu isendite loomist ja haldamist süsteemis.                                                                     |
 | 16h     | API kaudu lendude andmete lugemine ja andmeklasside täiendamine: API-st andmete lugemise ja töötlemise funktsionaalsuse arendamine ning andmeklasside täiendamine, et tagada andmete õige salvestamine ja kasutamine. |
-| 2h      | Lennuteenuste ja -andmete haldamise funktsioonide arendamine: Lennuteenuste, andmete salvestamise ja päringute tegemise funktsioonide loomine ja täiustamine.                                                         |
+| 4h      | Lennuteenuste ja -andmete haldamise funktsioonide arendamine: Lennuteenuste, andmete salvestamise ja päringute tegemise funktsioonide loomine ja täiustamine.                                                         |
+| 6h      | Reacti ja TypeScriptiga frontendi arendamine, mis võimaldab kasutajatel vaadata lende ja nende isendiplaane.                                                                                                          |
