@@ -1,12 +1,12 @@
-import "../styles/Pagination.css";
+import "../styles/FlightList.css";
 import ReactPaginate from "react-paginate";
 import { useEffect, useState } from "react";
 import { fetchFlights } from "../api";
-import { FlightPage } from "../types";
+import {Flight, FlightPage} from "../types";
 import Filters from "./Filters";
 import FlightRow from "./FlightRow";
 
-export default function FlightList({ onSelect }: { onSelect: (id: number) => void }) {
+export default function FlightList({ onSelect }: { onSelect: (flight: Flight) => void }) {
     const [flightPage, setFlightPage] = useState<FlightPage | null>(null);
     const [query, setQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
@@ -55,7 +55,7 @@ export default function FlightList({ onSelect }: { onSelect: (id: number) => voi
                     arrivalTime={flight.arrivalTime}
                     durationMinutes={flight.durationMinutes}
                     initialPrice={flight.initialPrice}
-                    onSelect={() => onSelect(flight.id)}
+                    onSelect={() => onSelect(flight)}
                 />
             ))}
 

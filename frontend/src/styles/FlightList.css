@@ -1,0 +1,82 @@
+.page-size-selector {
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-size-selector select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    list-style-type: none;
+    padding: 0;
+}
+
+.pagination li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 0.4rem 1rem;
+    border: 1px solid gray;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination li a:hover {
+    background-color: #0366d6;
+    color: white;
+}
+
+.pagination li.active a {
+    background-color: #007bff;
+    color: white;
+    min-width: 32px;
+}
+
+.pagination li.disabled a {
+    color: grey;
+    cursor: default;
+}
+
+.pagination li.previous,
+.pagination li.next {
+    font-weight: bold;
+    /*background-color: #777777;*/
+}
+
+.pagination li.break a {
+    border-color: transparent;
+}
+
+.pagination li.break a:hover {
+    background-color: white;
+    color: black;
+}
+
+.pagination li.disabled a:hover {
+    background-color: white;
+    color: grey;
+}

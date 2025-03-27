@@ -1,6 +1,6 @@
 import "../styles/Filters.css";
 
-import { useState } from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 
 type SearchParams = {
     departure: string;
@@ -24,21 +24,23 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
         minPrice: "",
         maxPrice: "",
     });
-    const [sortField, setSortField] = useState("date");
+    const [sortField, setSortField] = useState("departureTime");
     const [sortOrder, setSortOrder] = useState("asc");
 
-    const handleParamChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        onSearch(buildQuery());
+    }, [sortField, sortOrder]);
+
+    const handleParamChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFilters({ ...filters, [e.target.name]: e.target.value });
     };
 
-    const handleSortChange = (field: string) => {
-        if (sortField === field) {
-            setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-        } else {
-            setSortField(field);
-            setSortOrder("asc");
-        }
+    const handleSortFieldChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        setSortField(e.target.value);
+    };
 
+    const handleSortOrderChange = () => {
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     };
 
     const buildQuery = () => {
@@ -47,7 +49,7 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
             .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
             .join("&");
 
-        return `&${queryParams}&sort=${sortField},${sortOrder}`;
+        return `&${queryParams}&sortField=${sortField}&sortOrder=${sortOrder}`;
     };
 
     const handleSearch = () => {
@@ -55,19 +57,62 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
     };
 
     return (
-        <div className="search-filters">
-            <input type="text" name="departure" placeholder="Departure" onChange={handleParamChange} />
-            <input type="text" name="destination" placeholder="Destination" onChange={handleParamChange} />
-            <input type="date" name="startDate" onChange={handleParamChange} />
-            <input type="date" name="endDate" onChange={handleParamChange} />
-            <input type="number" name="minDuration" placeholder="Min duration (min)" onChange={handleParamChange} />
-            <input type="number" name="maxDuration" placeholder="Max duration (min)" onChange={handleParamChange} />
-            <input type="number" name="minPrice" placeholder="Min price (€)" onChange={handleParamChange} />
-            <input type="number" name="maxPrice" placeholder="Max price (€)" onChange={handleParamChange} />
-            <button onClick={handleSearch}>Search</button>
-            <div className="sorting">
-                <button onClick={() => handleSortChange("date")}>Sort by Date {sortField === "date" && (sortOrder === "asc" ? "↑" : "↓")}</button>
-                <button onClick={() => handleSortChange("price")}>Sort by Price {sortField === "price" && (sortOrder === "asc" ? "↑" : "↓")}</button>
+        <div className="filters-container">
+            <div className="filters-grid">
+                <div className="filter-group">
+                    <label htmlFor="departure">Departure:</label>
+                    <input type="text" id="departure" name="departure" placeholder="Enter departure city" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="destination">Destination:</label>
+                    <input type="text" id="destination" name="destination" placeholder="Enter destination city" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="minDuration">Min duration (min):</label>
+                    <input type="number" id="minDuration" name="minDuration" placeholder="Min duration" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="maxDuration">Max duration (min):</label>
+                    <input type="number" id="maxDuration" name="maxDuration" placeholder="Max duration" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="minPrice">Min price (€):</label>
+                    <input type="number" id="minPrice" name="minPrice" placeholder="Min price" onChange={handleParamChange} />
+                </div>
+
+                <div className="filter-group">
+                    <label htmlFor="maxPrice">Max price (€):</label>
+                    <input type="number" id="maxPrice" name="maxPrice" placeholder="Max price" onChange={handleParamChange} />
+                </div>
+            </div>
+
+            <div className="filters-actions">
+                <div className="sorting">
+                    <label>Sort by: </label>
+                    <select id="sortField" value={sortField} onChange={handleSortFieldChange}>
+                        <option value="departureTime">Time</option>
+                        <option value="initialPrice">Price</option>
+                    </select>
+                    <button className="sort-button" onClick={handleSortOrderChange}>
+                        {sortOrder === "asc" ? "↑" : "↓"}
+                    </button>
+                </div>
+
+                <button className="search-button" onClick={handleSearch}>Search</button>
             </div>
         </div>
 

@@ -6,6 +6,7 @@
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     transition: background 0.2s;
+    min-height: 80px;
 }
 
 .flight-row:hover {
@@ -31,10 +32,19 @@
 
 /* Kuupäeva ja kellaaja stiil */
 .dateTime {
-    font-size: 0.9rem;
-    color: #555;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.time {
+    font-size: 1.2rem; /* Suurem kellaaeg */
+}
+
+.date {
+    font-size: 0.8rem; /* Väiksem kuupäev */
+    color: #777;
 }
 
 /* Lennu kestus + joon */
@@ -47,8 +57,8 @@
 
 /* Joon kahe linna vahel */
 .line {
-    width: 80px;
-    height: 2px;
+    width: 160px;
+    height: 1px;
     background: black;
 }
 
@@ -74,5 +84,5 @@
     font-size: 1rem;
     margin-right: 10px;
     min-width: 30px;
-    text-align: center;
+    text-align: left;
 }
