@@ -29,16 +29,16 @@ public class FlightSpecification {
                 predicates.add(cb.equal(root.get("destinationIATA"), destination));
             }
             if (minDuration != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("duration"), minDuration));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("durationMinutes"), minDuration));
             }
             if (maxDuration != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("duration"), maxDuration));
+                predicates.add(cb.lessThanOrEqualTo(root.get("durationMinutes"), maxDuration));
             }
             if (minPrice != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("initialPrice"), minPrice));
             }
             if (maxPrice != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+                predicates.add(cb.lessThanOrEqualTo(root.get("initialPrice"), maxPrice));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
