@@ -23,10 +23,10 @@ public class FlightSpecification {
                 predicates.add(cb.lessThanOrEqualTo(root.get("departureTime"), endDate.atTime(23, 59, 59)));
             }
             if (departure != null) {
-                predicates.add(cb.equal(root.get("departureIATA"), departure));
+                predicates.add(cb.equal(root.get("departureCity"), departure));
             }
             if (destination != null) {
-                predicates.add(cb.equal(root.get("destinationIATA"), destination));
+                predicates.add(cb.equal(root.get("destinationCity"), destination));
             }
             if (minDuration != null) {
                 predicates.add(cb.greaterThanOrEqualTo(root.get("durationMinutes"), minDuration));
