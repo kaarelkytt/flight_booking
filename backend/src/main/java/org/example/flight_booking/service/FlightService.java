@@ -37,7 +37,8 @@ public class FlightService {
                          FlightApiService flightApiService,
                          IataCityService iataCityService,
                          FlightPricingService flightPricingService,
-                         AircraftDataService aircraftDataService, SeatOccupancyService seatOccupancyService) {
+                         AircraftDataService aircraftDataService,
+                         SeatOccupancyService seatOccupancyService) {
         this.flightRepository = flightRepository;
         this.flightApiService = flightApiService;
         this.iataCityService = iataCityService;
@@ -109,7 +110,9 @@ public class FlightService {
                     departureTime.plusDays(randomDays),
                     arrivalTime.plusDays(randomDays),
                     durationMinutes,
-                    flightPricingService.calculateInitialPrice(durationMinutes)
+                    flightPricingService.calculateInitialPrice(durationMinutes),
+                    flightPricingService.getExtraLegroomMultiplier(),
+                    flightPricingService.getNearExitMultiplier()
             );
 
             flight.setSeatPlan(SeatPlanGenerator.generateFromFile(aircraftDataService.getSeatPlanFile(aircraftType)));

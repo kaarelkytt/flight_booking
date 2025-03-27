@@ -18,6 +18,20 @@ public class FlightPricingService {
     @Value("${flight.price.variation}")
     private double variation;
 
+    @Value("${flight.price.extraLegroomMultiplier}")
+    private double extraLegroomMultiplier;
+
+    @Value("${flight.price.nearExitMuliplier}")
+    private double nearExitMultiplier;
+
+    public double getExtraLegroomMultiplier() {
+        return extraLegroomMultiplier;
+    }
+
+    public double getNearExitMultiplier() {
+        return nearExitMultiplier;
+    }
+
     public double calculateInitialPrice(int durationMinutes) {
         double randomFactor = 1 + (random.nextDouble() * variation * 2 - variation);
         double initialPrice = (basePrice + durationMinutes * pricePerMinute) * randomFactor;

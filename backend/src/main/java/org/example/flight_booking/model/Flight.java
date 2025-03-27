@@ -21,6 +21,8 @@ public class Flight {
     private int durationMinutes;
     private String aircraftType;
     private double initialPrice;
+    private double extraLegroomMultiplier;
+    private double nearExitMultiplier;
 
     @OneToOne(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private SeatPlan seatPlan;
@@ -29,7 +31,7 @@ public class Flight {
                   String departureIATA, String destinationIATA,
                   String departureCity, String destinationCity,
                   ZonedDateTime departureTime, ZonedDateTime arrivalTime,
-                  int durationMinutes, double initialPrice) {
+                  int durationMinutes, double initialPrice, double extraLegroomMultiplier, double nearExitMultiplier) {
         this.flightNumber = flightNumber;
         this.departureIATA = departureIATA;
         this.destinationIATA = destinationIATA;
@@ -40,6 +42,8 @@ public class Flight {
         this.durationMinutes = durationMinutes;
         this.aircraftType = aircraftType;
         this.initialPrice = initialPrice;
+        this.extraLegroomMultiplier = extraLegroomMultiplier;
+        this.nearExitMultiplier = nearExitMultiplier;
     }
 
     public Flight() {

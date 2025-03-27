@@ -6,6 +6,7 @@ import org.example.flight_booking.service.FlightService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,9 +58,17 @@ public class FlightController {
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "departureTime") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable;
+
+        if (sortOrder.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortField).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortField).descending());
+        }
 
         Page<Flight> flightsPage = flightService.findFlights(startDate, endDate, departure, destination,
                 minDuration, maxDuration, minPrice, maxPrice, pageable);
