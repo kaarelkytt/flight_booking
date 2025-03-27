@@ -32,18 +32,19 @@
 32 abc|defg|hjk
 33 abc|defg|hjk
 34 abc|defg|hjk
-35 abc|defg|hjk
-36 abc|defg|hjk
-37 abc|defg|hjk
-38 abc|defg|hjk
-39 abc|defg|hjk
-40 abc|defg|hjk
-41 abc|defg|hjk
-42 abc|defg|hjk
-43 abc|defg|hjk
+35 abc|defg|hjk *
+36 abc|defg|hjk *
+37 abc|defg|hjk *
+38 abc|defg|hjk *
+39 abc|defg|hjk *
+40 abc|____|hjk *
+40 ___|____|___ *
+41 ABC|DEFG|HJK *
+42 abc|defg|hjk *
+43 abc|defg|hjk *
 44 abc|defg|hjk *
 45 _bc|defg|hj_ *
 46 _bc|defg|hj_ *
-47 _bc|defg|hj_ *
-48 ___|defg|___ *
-49 ___|defg|___ *
+47 _bc|defg|hj_
+48 ___|defg|___
+49 ___|defg|___
