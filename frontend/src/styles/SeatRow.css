@@ -1,0 +1,5 @@
+.seat-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}

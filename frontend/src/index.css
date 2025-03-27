@@ -3,6 +3,7 @@
 }
 
 .left-panel {
+  min-width: 850px;
   width: 50%;
   padding: 10px;
 }
@@ -10,4 +11,10 @@
 .right-panel {
   width: 50%;
   padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .left-panel {
+    min-width: 500px;
+  }
 }

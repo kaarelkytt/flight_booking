@@ -10,6 +10,8 @@ export type Flight = {
     durationMinutes: number;
     aircraftType: string;
     initialPrice: number;
+    extraLegroomMultplier: number;
+    nearExitMultiplier: number;
 };
 
 export type FlightPage = {
