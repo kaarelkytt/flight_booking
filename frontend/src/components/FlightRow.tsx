@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { parseISO } from "date-fns";
 
 function formatDate(dateTime: string) {
-    return format(parseISO(dateTime), "(dd.MM.yyyy)");
+    return format(parseISO(dateTime), "dd.MM.yyyy");
 }
 
 function formatTime(dateTime: string) {
@@ -41,7 +41,8 @@ export default function FlightRow({
                     <span>{departureCity}</span>
                 </div>
                 <div className="dateTime">
-                    <span>{formatTime(departureTime)}</span> <span>{formatDate(departureTime)}</span>
+                    <span className="time">{formatTime(departureTime)}</span>
+                    <span className="date">{formatDate(departureTime)}</span>
                 </div>
             </div>
             <div className="flight-info">
@@ -58,7 +59,10 @@ export default function FlightRow({
                     <span>{destinationCity}</span>
                 </div>
                 <div className="dateTime">
-                    <span>{formatTime(arrivalTime)}</span> <span>{formatDate(departureTime)}</span>
+                    <span className="time">{formatTime(arrivalTime)}</span>
+                    {formatDate(departureTime) !== formatDate(arrivalTime) && (
+                        <span className="date">({formatDate(arrivalTime)})</span>
+                    )}
                 </div>
             </div>
             <div className="price">

@@ -1,3 +1,5 @@
+import "../styles/Filters.css";
+
 import { useState } from "react";
 
 type SearchParams = {
@@ -22,9 +24,21 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
         minPrice: "",
         maxPrice: "",
     });
+    const [sortField, setSortField] = useState("date");
+    const [sortOrder, setSortOrder] = useState("asc");
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleParamChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFilters({ ...filters, [e.target.name]: e.target.value });
+    };
+
+    const handleSortChange = (field: string) => {
+        if (sortField === field) {
+            setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+        } else {
+            setSortField(field);
+            setSortOrder("asc");
+        }
+
     };
 
     const buildQuery = () => {
@@ -33,7 +47,7 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
             .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
             .join("&");
 
-        return queryParams ? `&${queryParams}` : "";
+        return `&${queryParams}&sort=${sortField},${sortOrder}`;
     };
 
     const handleSearch = () => {
@@ -42,15 +56,20 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
 
     return (
         <div className="search-filters">
-            <input type="text" name="departure" placeholder="Departure" onChange={handleChange} />
-            <input type="text" name="destination" placeholder="Destination" onChange={handleChange} />
-            <input type="date" name="startDate" onChange={handleChange} />
-            <input type="date" name="endDate" onChange={handleChange} />
-            <input type="number" name="minDuration" placeholder="Min duration (min)" onChange={handleChange} />
-            <input type="number" name="maxDuration" placeholder="Max duration (min)" onChange={handleChange} />
-            <input type="number" name="minPrice" placeholder="Min price (€)" onChange={handleChange} />
-            <input type="number" name="maxPrice" placeholder="Max price (€)" onChange={handleChange} />
+            <input type="text" name="departure" placeholder="Departure" onChange={handleParamChange} />
+            <input type="text" name="destination" placeholder="Destination" onChange={handleParamChange} />
+            <input type="date" name="startDate" onChange={handleParamChange} />
+            <input type="date" name="endDate" onChange={handleParamChange} />
+            <input type="number" name="minDuration" placeholder="Min duration (min)" onChange={handleParamChange} />
+            <input type="number" name="maxDuration" placeholder="Max duration (min)" onChange={handleParamChange} />
+            <input type="number" name="minPrice" placeholder="Min price (€)" onChange={handleParamChange} />
+            <input type="number" name="maxPrice" placeholder="Max price (€)" onChange={handleParamChange} />
             <button onClick={handleSearch}>Search</button>
+            <div className="sorting">
+                <button onClick={() => handleSortChange("date")}>Sort by Date {sortField === "date" && (sortOrder === "asc" ? "↑" : "↓")}</button>
+                <button onClick={() => handleSortChange("price")}>Sort by Price {sortField === "price" && (sortOrder === "asc" ? "↑" : "↓")}</button>
+            </div>
         </div>
+
     );
 }
