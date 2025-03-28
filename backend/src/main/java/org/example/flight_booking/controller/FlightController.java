@@ -48,6 +48,15 @@ public class FlightController {
     }
 
     @CrossOrigin
+    @GetMapping("/{type}/cities")
+    public ResponseEntity<List<String>> findCities(
+            @PathVariable String type,
+            @RequestParam(required = false) String query) {
+
+        return ResponseEntity.ok(flightService.findCities(type, query));
+    }
+
+    @CrossOrigin
     @PostMapping("/{flightId}/recommend-seats")
     public ResponseEntity<List<Seat>> recommendSeats(
             @PathVariable Long flightId,

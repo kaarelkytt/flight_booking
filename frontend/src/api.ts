@@ -32,7 +32,16 @@ export const fetchRecommendedSeats = async (flightId: number, preferences: Prefe
         body: JSON.stringify(selectedSeats.map(s => s.id))
     });
     if (!response.ok) {
-        throw new Error("Failed to fetch recommended seats");
+        throw new Error("Error fetching recommended seats");
+    }
+    return response.json();
+};
+
+export const fetchCities = async (type: "departure" | "destination", query: string) => {
+    if (!query) return [];
+    const response = await fetch(`http://localhost:8080/flights/${type}/cities?query=${query}`);
+    if (!response.ok) {
+        throw new Error("Failed to fetch cities");
     }
     return response.json();
 };

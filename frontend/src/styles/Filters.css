@@ -36,6 +36,44 @@
     align-items: center;
 }
 
+.autocomplete-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Style for the suggestions container */
+.react-autosuggest__suggestions-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for each suggestion */
+.react-autosuggest__suggestion {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Style for the highlighted suggestion */
+.react-autosuggest__suggestion--highlighted {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+/* Style for the suggestions container when no suggestions exist */
+.react-autosuggest__suggestions-container--no-suggestions {
+    display: none;
+}
+
+
 .sorting {
     display: flex;
     align-items: center;

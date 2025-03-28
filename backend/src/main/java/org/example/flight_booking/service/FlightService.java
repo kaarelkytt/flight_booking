@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +85,17 @@ public class FlightService {
         }
 
         return SeatRecommendation.recommendSeats(flight.get().getSeatPlan(), numSeats, window, aisle, extraLegroom, nearExit, adjacent, selectedSeats);
+    }
+
+    public List<String> findCities(String type, String query) {
+        Pageable limit = PageRequest.of(0, 10);
+        if (type.equals("departure")) {
+            return flightRepository.findDepartureCities(query, limit);
+        } else if (type.equals("destination")) {
+            return flightRepository.findDestinationCities(query, limit);
+        } else {
+            return List.of();
+        }
     }
 
     public void fetchAndSaveFlights() {

@@ -1,5 +1,5 @@
 import "../styles/Filters.css";
-
+import AutoComplete from "./AutoComplete";
 import {ChangeEvent, useEffect, useState} from "react";
 
 type SearchParams = {
@@ -35,6 +35,11 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
         setFilters({ ...filters, [e.target.name]: e.target.value });
     };
 
+
+    const handleSelect = (type: "departure" | "destination", value: string) => {
+        setFilters((prev) => ({ ...prev, [type]: value }));
+    };
+
     const handleSortFieldChange = (e: ChangeEvent<HTMLSelectElement>) => {
         setSortField(e.target.value);
     };
@@ -61,12 +66,14 @@ export default function Filters({ onSearch }: { onSearch: (query: string) => voi
             <div className="filters-grid">
                 <div className="filter-group">
                     <label htmlFor="departure">Departure:</label>
-                    <input type="text" id="departure" name="departure" placeholder="Enter departure city" onChange={handleParamChange} />
+                    <AutoComplete type="departure" onSelect={(value) => handleSelect("departure", value)} />
+                    {/*<input type="text" id="departure" name="departure" placeholder="Enter departure city" onChange={handleParamChange} />*/}
                 </div>
 
                 <div className="filter-group">
                     <label htmlFor="destination">Destination:</label>
-                    <input type="text" id="destination" name="destination" placeholder="Enter destination city" onChange={handleParamChange} />
+                    <AutoComplete type="destination" onSelect={(value) => handleSelect("destination", value)} />
+                    {/*<input type="text" id="destination" name="destination" placeholder="Enter destination city" onChange={handleParamChange} />*/}
                 </div>
 
                 <div className="filter-group">
