@@ -97,6 +97,14 @@ public class Flight {
         return initialPrice;
     }
 
+    public double getExtraLegroomMultiplier() {
+        return extraLegroomMultiplier;
+    }
+
+    public double getNearExitMultiplier() {
+        return nearExitMultiplier;
+    }
+
     public void setSeatPlan(SeatPlan seatPlan) {
         seatPlan.setFlight(this);
         this.seatPlan = seatPlan;

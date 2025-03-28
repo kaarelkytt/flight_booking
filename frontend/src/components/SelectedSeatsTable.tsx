@@ -10,7 +10,7 @@ type Props = {
 export default function SelectedSeatsTable({selectedSeats, setSelectedSeats, flight}: Props) {
     const calculatePrice = (seat: Seat) => {
         let price = flight.initialPrice;
-        if (seat.extraLegroom) price *= flight.extraLegroomMultplier;
+        if (seat.extraLegroom) price *= flight.extraLegroomMultiplier;
         if (seat.nearExit) price *= flight.nearExitMultiplier;
         return price.toFixed(2);
     };
