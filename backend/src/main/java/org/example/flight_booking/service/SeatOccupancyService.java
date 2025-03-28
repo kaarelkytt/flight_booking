@@ -24,7 +24,7 @@ public class SeatOccupancyService {
 
     public void fillSeatsRandomly(Flight flight) {
         double fillPercentage = calculateFillPercentage(flight.getDepartureTime().toLocalDate());
-        List<Seat> allAvailableSeats = flight.getSeatPlan().getAllSeats();
+        List<Seat> allAvailableSeats = flight.getSeatPlan().findAllFreeSeats();
 
         int seatsToFill = (int) (allAvailableSeats.size() * fillPercentage);
         for (int i = 0; i < seatsToFill; i++) {

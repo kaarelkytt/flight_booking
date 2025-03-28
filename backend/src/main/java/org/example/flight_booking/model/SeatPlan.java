@@ -34,7 +34,7 @@ public class SeatPlan {
         seatRows.add(row);
     }
 
-    public List<Seat> getAllSeats() {
+    public List<Seat> findAllFreeSeats() {
         List<Seat> seats = new ArrayList<>();
         for (SeatRow row : seatRows) {
             for (Seat seat : row.getSeats()) {
