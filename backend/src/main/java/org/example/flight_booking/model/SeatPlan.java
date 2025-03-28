@@ -38,7 +38,7 @@ public class SeatPlan {
         List<Seat> seats = new ArrayList<>();
         for (SeatRow row : seatRows) {
             for (Seat seat : row.getSeats()) {
-                if (!(seat instanceof NoSeat)){
+                if (!(seat instanceof NoSeat) && !seat.isOccupied()) {
                     seats.add(seat);
                 }
             }
