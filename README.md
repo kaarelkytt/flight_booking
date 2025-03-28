@@ -54,6 +54,16 @@ Kuna tasuta API võimaldab hankida ainult hetkel toimuvate lennuliinide andmeid,
 töödelda, et saada andmestik, mis sobib rakenduse testimiseks. API võimaldab hankida ka tuleviku lennuplaane, kuid see 
 on tasuline teenus.
 
+* API päringud tehakse lendude uuendamiseks iga tunni tagant. Uuendamise sagedus on määratud failis
+  `application.properties`:
+   ```properties
+   flightdata.update.rate=3600000
+   ```
+* Päringud lendude saamiseks tehakse kõikidele lennujaamadele, mis on määratud failis
+  `application.properties`:
+   ```properties
+   api.aviationstack.departure.iata=TLL,RIX,HEL,AMS,CDG,FRA
+   ```
 * Lennu number on unikaalne, kuna lennud võetakse API-st ainult ühe päeva kohta. Sama lennu numbriga lendu uuesti ei lisata.
 * Kuna API-st saab ainult sama päeva lennud, siis lendude kuupäevi on liigutatud edasi suvalise päevade arvu võrra (1-45). 
   Ehk lennud jaotatakse ühtlaselt selle ajaperioodi peale.
