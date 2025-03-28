@@ -26,6 +26,7 @@ export default function SeatMap({flight}: Props) {
         fetchSeatMap(flight.id)
             .then(setSeatPlan)
             .catch(err => console.error("Error fetching seat map:", err));
+        setSelectedSeats([]);
     }, [flight.id]);
 
     const handleRecommendSeats = () => {
