@@ -1,6 +1,7 @@
 package org.example.flight_booking.controller;
 
 import org.example.flight_booking.model.Flight;
+import org.example.flight_booking.model.Seat;
 import org.example.flight_booking.model.SeatPlan;
 import org.example.flight_booking.service.FlightService;
 import org.springframework.data.domain.Page;
@@ -44,6 +45,21 @@ public class FlightController {
         } else {
             return ResponseEntity.ok(flight.get().getSeatPlan());
         }
+    }
+
+    @CrossOrigin
+    @PostMapping("/{flightId}/recommend-seats")
+    public ResponseEntity<List<Seat>> recommendSeats(
+            @PathVariable Long flightId,
+            @RequestParam int numSeats,
+            @RequestParam boolean window,
+            @RequestParam boolean aisle,
+            @RequestParam boolean extraLegroom,
+            @RequestParam boolean nearExit,
+            @RequestParam boolean adjacent,
+            @RequestBody List<Long> selectedSeats) {
+        List<Seat> seats = flightService.recommendSeats(flightId, numSeats, window, aisle, extraLegroom, nearExit, adjacent, selectedSeats);
+        return ResponseEntity.ok(seats);
     }
 
     @CrossOrigin

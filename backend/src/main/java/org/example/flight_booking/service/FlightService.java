@@ -2,10 +2,12 @@ package org.example.flight_booking.service;
 
 import org.example.flight_booking.dto.FlightData;
 import org.example.flight_booking.model.Flight;
+import org.example.flight_booking.model.Seat;
 import org.example.flight_booking.repository.FlightRepository;
 import org.example.flight_booking.specification.FlightSpecification;
 import org.example.flight_booking.utils.DateTimeUtil;
 import org.example.flight_booking.utils.SeatPlanGenerator;
+import org.example.flight_booking.utils.SeatRecommendation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,6 +75,15 @@ public class FlightService {
 
     public List<Object[]> findAllAircrafts() {
         return flightRepository.findAircraftTypesWithCount();
+    }
+
+    public List<Seat> recommendSeats(Long flightId, int numSeats, boolean window, boolean aisle, boolean extraLegroom, boolean nearExit, boolean adjacent, List<Long> selectedSeats) {
+        Optional<Flight> flight = getFlightById(flightId);
+        if (flight.isEmpty()) {
+            return List.of();
+        }
+
+        return SeatRecommendation.recommendSeats(flight.get().getSeatPlan(), numSeats, window, aisle, extraLegroom, nearExit, adjacent, selectedSeats);
     }
 
     public void fetchAndSaveFlights() {

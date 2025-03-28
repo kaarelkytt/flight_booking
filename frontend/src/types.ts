@@ -39,3 +39,12 @@ export type SeatRow = {
 export type SeatPlan = {
     seatRows: SeatRow[];
 };
+
+export type Preferences = {
+    numSeats: number;
+    window: boolean;
+    aisle: boolean;
+    extraLegroom: boolean;
+    nearExit: boolean;
+    adjacent: boolean
+};

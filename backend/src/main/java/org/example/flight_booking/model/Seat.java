@@ -35,6 +35,10 @@ public class Seat {
     public Seat() {
     }
 
+    public long getId() {
+        return id;
+    }
+
     public void setSeatRow(SeatRow seatRow) {
         this.seatRow = seatRow;
     }

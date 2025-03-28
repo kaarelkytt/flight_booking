@@ -1,8 +1,9 @@
 import "../styles/SeatSelection.css";
+import {Preferences} from "../types.ts";
 
 type Props = {
-    preferences: any;
-    setPreferences: (prefs: any) => void;
+    preferences: Preferences;
+    setPreferences: (prefs: Preferences) => void;
     onRecommendSeats: () => void;
 };
 

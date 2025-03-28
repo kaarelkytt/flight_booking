@@ -1,7 +1,7 @@
 import "../styles/SeatMap.css";
 import {useEffect, useState} from "react";
 import {fetchRecommendedSeats, fetchSeatMap} from "../api";
-import {Flight, Seat, SeatPlan} from "../types";
+import {Flight, Preferences, Seat, SeatPlan} from "../types";
 import SeatRow from "./SeatRow";
 import SeatSelection from "./SeatSelection";
 import SelectedSeatsTable from "./SelectedSeatsTable.tsx";
@@ -13,7 +13,7 @@ type Props = {
 export default function SeatMap({flight}: Props) {
     const [seatPlan, setSeatPlan] = useState<SeatPlan | null>(null);
     const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
-    const [preferences, setPreferences] = useState({
+    const [preferences, setPreferences] = useState<Preferences>({
         numSeats: 1,
         window: false,
         aisle: false,
@@ -30,13 +30,16 @@ export default function SeatMap({flight}: Props) {
 
     const handleRecommendSeats = () => {
         fetchRecommendedSeats(flight.id, preferences, selectedSeats)
-            .then(recommended => setSelectedSeats(recommended))
+            .then((recommended: Seat[]) => {
+                const recommendedSeats = seatPlan?.seatRows?.flatMap(row => row.seats) ?? [];
+
+                const newSeats = recommendedSeats.filter(seat =>
+                    recommended.some(r => r.id === seat.id)
+                );
+                setSelectedSeats(prev => [...prev, ...newSeats]);
+            })
             .catch(err => console.error("Error fetching recommended seats:", err));
     };
-
-    if (!seatPlan) {
-        return <p>Loading seat map...</p>;
-    }
 
     return (
         <div className="seatmap-container">
@@ -51,7 +54,7 @@ export default function SeatMap({flight}: Props) {
 
             <div className="seat-map-container">
                 <div className="seat-map">
-                    {seatPlan.seatRows.map((row, index) => (
+                    {seatPlan?.seatRows.map((row, index) => (
                         <SeatRow
                             key={index}
                             row={row}
