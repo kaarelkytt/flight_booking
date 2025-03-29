@@ -32,8 +32,12 @@ export default function SeatMap({flight}: Props) {
     const handleRecommendSeats = () => {
         fetchRecommendedSeats(flight.id, preferences, selectedSeats)
             .then((recommended: Seat[]) => {
-                const recommendedSeats = seatPlan?.seatRows?.flatMap(row => row.seats) ?? [];
+                if (recommended.length === 0) {
+                    alert("No suitable seats available.");
+                    return;
+                }
 
+                const recommendedSeats = seatPlan?.seatRows?.flatMap(row => row.seats) ?? [];
                 const newSeats = recommendedSeats.filter(seat =>
                     recommended.some(r => r.id === seat.id)
                 );
