@@ -121,12 +121,27 @@ Lennu valimisel kuvatakse lennu istmeplaan, kus on näha kõik istmed. Istmed on
 * Tumepunane iste on võetud koht, mis on suurema jalaruumiga.
 * Roheline iste on valitud/soovitatud koht.
 
-Istekohtade soovitamisel arvestatakse järgmiste aspektidega:
-* Kasutaja saab valida, kas soovib istekohta akna või vahekäigu kõrval.
-* Kasutaja saab valida, kas soovib istekohta väljapääsu lähedal.
-* Kasutaja saab valida, kas soovib istekohta suurema jalaruumiga.
-* Kasutaja saab valida, kas soovib istekohti, mis asuvad koos.
+#### Soovitamise loogika
+Istekohtade soovitamisel kasutatakse süsteemi, mis hindab erinevaid istekohti ja valib sobivaimad, arvestades kasutaja 
+eelistusi. Süsteem skaneerib istmeplaani rida-realt ja otsib vabu istekohti, mis vastaksid võimalikult 
+hästi kasutaja soovidele.
 
+#### Kasutaja saab valida järgmised eelistused:
+* Kas soovib istekohta akna või vahekäigu kõrval.
+* Kas soovib istekohta väljapääsu lähedal.
+* Kas soovib istekohta suurema jalaruumiga.
+* Kas soovib järjestikuseid istekohti.
+
+Kui kasutaja soovib järjestikuseid istekohti, siis süsteem püüab leida maksimaalse skooriga istegrupi, kuid kõik 
+istekohad ei pruugi vastata täpselt kõigile eelistustele. 
+
+Süsteem leiab kõik võimalikud istekoha kombinatsioonid, hinnates järgmisi omadusi:
+* Eelistatud omaduste kattuvus (aken, vahekäik, ekstra jalaruum, väljapääsu lähedus).
+* Järjestikuste kohtade lähedus – võimalusel välditakse vahesid istegruppi sees.
+
+Süsteem leiab kõige parema skooriga istekohad (mitme valiku puhul pakutakse suvalist istegruppi) ja kuvab need rohelisena.
+
+#### Kasutaja valikud ja lõplik broneerimine
 Soovitusi saab küsida korduvalt ning istekohti saab ka ise valida, klõpsates neid. Kui kasutaja on valinud istekohad, 
 siis need kuvatakse eraldi tabelis koos kokku pandud hinnaga.
 
@@ -141,6 +156,6 @@ siis need kuvatakse eraldi tabelis koos kokku pandud hinnaga.
 | 16h     | API kaudu lendude andmete lugemine ja andmeklasside täiendamine: API-st andmete lugemise ja töötlemise funktsionaalsuse arendamine ning andmeklasside täiendamine, et tagada andmete õige salvestamine ja kasutamine. |
 | 6h      | Lennuteenuste ja -andmete haldamise funktsioonide arendamine: Lennuteenuste, andmete salvestamise ja päringute tegemise funktsioonide loomine ja täiustamine.                                                         |
 | 16h     | Reacti ja TypeScriptiga frontendi arendamine, mis võimaldab kasutajatel vaadata lende ja nende isendiplaane.                                                                                                          |
-
+| 3h      | Istekohtade soovitamise funktsionaalsuse väljatöötamine                                                                                                                                                               |
 
 
