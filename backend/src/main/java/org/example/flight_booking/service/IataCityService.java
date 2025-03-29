@@ -16,6 +16,9 @@ public class IataCityService {
     private static final Logger log = LoggerFactory.getLogger(IataCityService.class);
     private final Map<String, String> iataCityMap = new HashMap<>();
 
+    /**
+     * Load IATA city data from JSON file.
+     */
     @PostConstruct
     public void loadIataCityData() {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("iata-cities.json")) {
@@ -33,6 +36,12 @@ public class IataCityService {
         }
     }
 
+    /**
+     * Get the city name for an IATA code.
+     *
+     * @param iataCode the IATA code
+     * @return the city name
+     */
     public String getCityName(String iataCode) {
         String cityName = iataCityMap.getOrDefault(iataCode, "UNKNOWN");
         if ("UNKNOWN".equals(cityName)) {

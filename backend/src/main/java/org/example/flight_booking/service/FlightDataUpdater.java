@@ -18,6 +18,9 @@ public class FlightDataUpdater {
         this.flightService = flightService;
     }
 
+    /**
+     * Scheduled method to update flight data.
+     */
     @Scheduled(fixedRateString = "${flightdata.update.rate}")
     public void updateFlightData() {
         if (!isUpdateEnabled) {

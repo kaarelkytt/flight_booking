@@ -50,6 +50,20 @@ public class FlightService {
         this.seatOccupancyService = seatOccupancyService;
     }
 
+    /**
+     * Find flights with filters
+     *
+     * @param startDate   the start date
+     * @param endDate     the end date
+     * @param departure   the departure airport
+     * @param destination the destination airport
+     * @param minDuration the minimum duration
+     * @param maxDuration the maximum duration
+     * @param minPrice    the minimum price
+     * @param maxPrice    the maximum price
+     * @param pageable    the pageable object
+     * @return a page of flights
+     */
     public Page<Flight> findFlights(LocalDate startDate, LocalDate endDate,
                                     String departure, String destination,
                                     Integer minDuration, Integer maxDuration,
@@ -58,26 +72,57 @@ public class FlightService {
         return flightRepository.findAll(FlightSpecification.withFilters(startDate, endDate, departure, destination, minDuration, maxDuration, minPrice, maxPrice), pageable);
     }
 
-    public void saveFlight(Flight flight) {
-        flightRepository.save(flight);
-    }
-
+    /**
+     * Check if a flight with the given flight number exists
+     *
+     * @param flightNumber the flight number
+     * @return true if a flight with the given flight number exists, false otherwise
+     */
     private boolean existsByFlightNumber(String flightNumber) {
         return flightRepository.existsByFlightNumber(flightNumber);
     }
 
+    /**
+     * Get a flight by ID
+     *
+     * @param flightId the flight ID
+     * @return an optional of the flight
+     */
     public Optional<Flight> getFlightById(Long flightId) {
         return flightRepository.findById(flightId);
     }
 
+    /**
+     * Find all unique airport IATA codes
+     *
+     * @return a list of unique airport IATA codes
+     */
     public List<String> findAllAirports() {
         return flightRepository.findAllUniqueAirportIataCodes();
     }
 
+    /**
+     * Find all unique aircraft types
+     *
+     * @return a list of unique aircraft types
+     */
     public List<Object[]> findAllAircrafts() {
         return flightRepository.findAircraftTypesWithCount();
     }
 
+    /**
+     * Recommend seats for a flight
+     *
+     * @param flightId      the flight ID
+     * @param numSeats      the number of seats to recommend
+     * @param window        true if window seat is preferred
+     * @param aisle         true if aisle seat is preferred
+     * @param extraLegroom  true if extra legroom seat is preferred
+     * @param nearExit      true if seat near exit is preferred
+     * @param adjacent      true if adjacent seats are preferred
+     * @param selectedSeats the list of selected seats
+     * @return a list of recommended seats
+     */
     public List<Seat> recommendSeats(Long flightId, int numSeats, boolean window, boolean aisle, boolean extraLegroom, boolean nearExit, boolean adjacent, List<Long> selectedSeats) {
         Optional<Flight> flight = getFlightById(flightId);
         if (flight.isEmpty()) {
@@ -87,6 +132,13 @@ public class FlightService {
         return SeatRecommendation.recommendSeats(flight.get().getSeatPlan(), numSeats, window, aisle, extraLegroom, nearExit, adjacent, selectedSeats);
     }
 
+    /**
+     * Find cities based on type and query
+     *
+     * @param type  the type of city
+     * @param query the query (start of a city name) to filter the cities
+     * @return a list of cities
+     */
     public List<String> findCities(String type, String query) {
         Pageable limit = PageRequest.of(0, 10);
         if (type.equals("departure")) {
@@ -98,6 +150,9 @@ public class FlightService {
         }
     }
 
+    /**
+     * Fetch flights from the API and save them to the database
+     */
     public void fetchAndSaveFlights() {
         List<FlightData> flightsFromApi = flightApiService.fetchFlights();
         log.info("Processing {} flights from API.", flightsFromApi.size());
@@ -105,10 +160,12 @@ public class FlightService {
         int savedFlightsCount = 0;
 
         for (FlightData apiFlight : flightsFromApi) {
+            // validate flight data
             if (!validateFlightData(apiFlight)) {
                 continue;
             }
 
+            // add random days to the scheduled date to simulate different days
             int randomDays = random.nextInt(scheduledDays) + 1;
 
             ZonedDateTime departureTime = DateTimeUtil.convertToZonedTime(apiFlight.getDeparture().getScheduled(), apiFlight.getDeparture().getTimezone());
@@ -116,10 +173,11 @@ public class FlightService {
             int durationMinutes = (int) java.time.Duration.between(departureTime, arrivalTime).toMinutes();
             String aircraftType;
 
+            // check if aircraft type is valid and use it, otherwise find the best aircraft type based on duration
             if (apiFlight.getAircraft() != null &&
-                    aircraftDataService.isValidAircraftType(apiFlight.getAircraft().getIata())){
+                    aircraftDataService.isValidAircraftType(apiFlight.getAircraft().getIata())) {
                 aircraftType = apiFlight.getAircraft().getIata();
-            } else{
+            } else {
                 aircraftType = aircraftDataService.findBestAircraft(durationMinutes);
             }
 
@@ -138,6 +196,7 @@ public class FlightService {
                     flightPricingService.getNearExitMultiplier()
             );
 
+            // generate seat plan and fill seats randomly
             flight.setSeatPlan(SeatPlanGenerator.generateFromFile(aircraftDataService.getSeatPlanFile(aircraftType)));
             seatOccupancyService.fillSeatsRandomly(flight);
 
@@ -150,6 +209,12 @@ public class FlightService {
         log.info("Finished processing API flights. {} new flights saved to database.", savedFlightsCount);
     }
 
+    /**
+     * Validate flight data
+     *
+     * @param apiFlight the flight data from the API
+     * @return true if the flight data is valid, false otherwise
+     */
     private boolean validateFlightData(FlightData apiFlight) {
         if (apiFlight.getFlight().getIata() == null ||
                 apiFlight.getDeparture().getIata() == null ||

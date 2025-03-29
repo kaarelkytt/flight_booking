@@ -18,11 +18,17 @@ import java.util.Objects;
 public class SeatPlanGenerator {
     private static final Logger log = LoggerFactory.getLogger(SeatPlanGenerator.class);
 
+    /**
+     * Generates a seat plan from a file.
+     *
+     * @param filePath the path to the file
+     * @return the generated seat plan
+     */
     public static SeatPlan generateFromFile(String filePath) {
         SeatPlan seatPlan = new SeatPlan();
 
         try (InputStream inputStream = SeatPlanGenerator.class.getClassLoader().getResourceAsStream(filePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8))){
+             BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -38,6 +44,14 @@ public class SeatPlanGenerator {
         return seatPlan;
     }
 
+    /**
+     * Generates a seat plan from a list of rows.
+     *
+     * @param rowNumber  the row number
+     * @param seatLayout the seat layout
+     * @param nearExit   whether the row is near an exit
+     * @return the generated seat row
+     */
     private static SeatRow createRow(String rowNumber, char[] seatLayout, boolean nearExit) {
         SeatRow row = new SeatRow();
         List<Integer> aisles = new ArrayList<>();
@@ -47,7 +61,7 @@ public class SeatPlanGenerator {
             char seatType = seatLayout[i];
             if (seatType == '_') {
                 row.addSeat(new NoSeat());
-            } else if (seatType == '|' ) {
+            } else if (seatType == '|') {
                 row.addSeat(new NoSeat());
                 aisles.add(i);
             } else {
@@ -63,9 +77,9 @@ public class SeatPlanGenerator {
         // Mark aisle seats
         for (Integer i : aisles) {
             if (i > 0)
-                seats.get(i-1).setAisleSeat(true);
+                seats.get(i - 1).setAisleSeat(true);
             if (i < seats.size() - 1)
-                seats.get(i+1).setAisleSeat(true);
+                seats.get(i + 1).setAisleSeat(true);
         }
 
         // Mark window seats

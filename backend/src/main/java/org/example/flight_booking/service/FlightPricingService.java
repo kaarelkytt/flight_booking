@@ -32,6 +32,12 @@ public class FlightPricingService {
         return nearExitMultiplier;
     }
 
+    /**
+     * Calculate the initial price for a flight based on the duration in minutes.
+     *
+     * @param durationMinutes the duration of the flight in minutes
+     * @return the initial price
+     */
     public double calculateInitialPrice(int durationMinutes) {
         double randomFactor = 1 + (random.nextDouble() * variation * 2 - variation);
         double initialPrice = (basePrice + durationMinutes * pricePerMinute) * randomFactor;

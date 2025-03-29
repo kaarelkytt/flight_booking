@@ -9,6 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlightSpecification {
+    /**
+     * Creates a specification for filtering flights based on the given parameters
+     *
+     * @param startDate   the start date of the flight
+     * @param endDate     the end date of the flight
+     * @param departure   the departure city of the flight
+     * @param destination the destination city of the flight
+     * @param minDuration the minimum duration of the flight
+     * @param maxDuration the maximum duration of the flight
+     * @param minPrice    the minimum price of the flight
+     * @param maxPrice    the maximum price of the flight
+     * @return the specification
+     */
     public static Specification<Flight> withFilters(LocalDate startDate, LocalDate endDate,
                                                     String departure, String destination,
                                                     Integer minDuration, Integer maxDuration,

@@ -24,6 +24,11 @@ public class FlightApiService {
     @Value("#{'${api.aviationstack.departure.iata}'.split(',')}")
     private List<String> departureIataList;
 
+    /**
+     * Fetches flights from the API by sending a request to the API for each departure IATA code.
+     *
+     * @return the list of flights
+     */
     public List<FlightData> fetchFlights() {
         List<FlightData> flights = new java.util.ArrayList<>(List.of());
         for (String departureIata : departureIataList) {

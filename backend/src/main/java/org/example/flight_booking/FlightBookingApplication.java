@@ -8,6 +8,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class FlightBookingApplication {
 
+    /**
+     * Main method to run the application
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(FlightBookingApplication.class, args);
     }

@@ -22,6 +22,11 @@ public class SeatOccupancyService {
     @Value("${flight.schedule.days}")
     private int scheduledDays;
 
+    /**
+     * Fills the seats of a flight with random passengers based on the flight's departure date
+     *
+     * @param flight the flight to fill
+     */
     public void fillSeatsRandomly(Flight flight) {
         double fillPercentage = calculateFillPercentage(flight.getDepartureTime().toLocalDate());
         List<Seat> allAvailableSeats = flight.getSeatPlan().findAllFreeSeats();
@@ -34,6 +39,12 @@ public class SeatOccupancyService {
         }
     }
 
+    /**
+     * Calculates the fill percentage of a flight based on the flight's departure date
+     *
+     * @param flightDate the date of the flight
+     * @return the fill percentage
+     */
     private double calculateFillPercentage(LocalDate flightDate) {
         int daysUntilFlight = (int) java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), flightDate);
 

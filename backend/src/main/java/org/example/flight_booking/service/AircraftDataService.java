@@ -18,6 +18,9 @@ public class AircraftDataService {
     private static final Logger log = LoggerFactory.getLogger(AircraftDataService.class);
     private final Map<String, AircraftInfo> aircraftData = new LinkedHashMap<>();
 
+    /**
+     * Load aircraft data from JSON file.
+     */
     @PostConstruct
     public void loadAircraftData() {
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("aircraft-data.json")) {
@@ -27,7 +30,8 @@ public class AircraftDataService {
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, AircraftInfo> rawData = objectMapper.readValue(inputStream, new TypeReference<>() {});
+            Map<String, AircraftInfo> rawData = objectMapper.readValue(inputStream, new TypeReference<>() {
+            });
 
             rawData.entrySet()
                     .stream()
@@ -40,14 +44,32 @@ public class AircraftDataService {
         }
     }
 
+    /**
+     * Check if the aircraft type is valid.
+     *
+     * @param aircraftType the aircraft type
+     * @return true if the aircraft type is valid, false otherwise
+     */
     public boolean isValidAircraftType(String aircraftType) {
         return aircraftData.containsKey(aircraftType);
     }
 
+    /**
+     * Get the seat plan file of the aircraft type.
+     *
+     * @param aircraftType the aircraft type
+     * @return the seat plan file
+     */
     public String getSeatPlanFile(String aircraftType) {
         return aircraftData.get(aircraftType).seatPlanFile();
     }
 
+    /**
+     * Find the best aircraft type for a given flight duration.
+     *
+     * @param durationMinutes the flight duration in minutes
+     * @return the best aircraft type
+     */
     public String findBestAircraft(int durationMinutes) {
         for (Map.Entry<String, AircraftInfo> entry : aircraftData.entrySet()) {
             if (entry.getValue().maxFlightTime() >= durationMinutes) {

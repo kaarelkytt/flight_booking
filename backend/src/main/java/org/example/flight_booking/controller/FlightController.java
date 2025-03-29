@@ -22,20 +22,41 @@ public class FlightController {
 
     private final FlightService flightService;
 
+    /**
+     * Constructor
+     *
+     * @param flightService the flight service
+     */
     public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
 
+    /**
+     * Endpoint to get a list of all airports
+     *
+     * @return a list of all airports
+     */
     @GetMapping("/airports")
     public ResponseEntity<List<String>> findAllAirports() {
         return ResponseEntity.ok(flightService.findAllAirports());
     }
 
+    /**
+     * Endpoint to get a list of all aircraft types
+     *
+     * @return a list of all aircraft types
+     */
     @GetMapping("/aircrafts")
     public ResponseEntity<List<Object[]>> findAllAircrafts() {
         return ResponseEntity.ok(flightService.findAllAircrafts());
     }
 
+    /**
+     * Endpoint to get a seat plan for a flight
+     *
+     * @param flightId the flight id
+     * @return a seat plan for the flight
+     */
     @CrossOrigin
     @GetMapping("/{flightId}/seats")
     public ResponseEntity<SeatPlan> findSeatPlan(@PathVariable Long flightId) {
@@ -47,6 +68,13 @@ public class FlightController {
         }
     }
 
+    /**
+     * Endpoint to get a list of cities based on type (departure or destination) and query (start of a city name)
+     *
+     * @param type  the type of city (departure or destination)
+     * @param query the query to filter the cities
+     * @return a list of cities
+     */
     @CrossOrigin
     @GetMapping("/{type}/cities")
     public ResponseEntity<List<String>> findCities(
@@ -56,6 +84,19 @@ public class FlightController {
         return ResponseEntity.ok(flightService.findCities(type, query));
     }
 
+    /**
+     * Endpoint to recommend seats for a flight
+     *
+     * @param flightId      the flight id
+     * @param numSeats      the number of seats to recommend
+     * @param window        whether the seat should be a window seat
+     * @param aisle         whether the seat should be an aisle seat
+     * @param extraLegroom  whether the seat should have extra legroom
+     * @param nearExit      whether the seat should be near an exit
+     * @param adjacent      whether the seats should be adjacent
+     * @param selectedSeats the list of already selected seats
+     * @return a list of recommended seats
+     */
     @CrossOrigin
     @PostMapping("/{flightId}/recommend-seats")
     public ResponseEntity<List<Seat>> recommendSeats(
@@ -71,6 +112,23 @@ public class FlightController {
         return ResponseEntity.ok(seats);
     }
 
+    /**
+     * Endpoint to get a list of flights
+     *
+     * @param page       the page number
+     * @param size       the page size
+     * @param sortField  the field to sort by
+     * @param sortOrder  the sort order (asc or desc)
+     * @param startDate  the start date of the flight
+     * @param endDate    the end date of the flight
+     * @param departure  the departure city of the flight
+     * @param destination the destination city of the flight
+     * @param minDuration the minimum duration of the flight
+     * @param maxDuration the maximum duration of the flight
+     * @param minPrice    the minimum price of the flight
+     * @param maxPrice    the maximum price of the flight
+     * @return a page of flights
+     */
     @CrossOrigin
     @GetMapping("/search")
     public ResponseEntity<Page<Flight>> findFlights(
@@ -89,12 +147,14 @@ public class FlightController {
 
         Pageable pageable;
 
+        // Determine the sort order for the pageable object
         if (sortOrder.equals("asc")) {
             pageable = PageRequest.of(page, size, Sort.by(sortField).ascending());
         } else {
             pageable = PageRequest.of(page, size, Sort.by(sortField).descending());
         }
 
+        // Get the page of flights based on the search criteria
         Page<Flight> flightsPage = flightService.findFlights(startDate, endDate, departure, destination,
                 minDuration, maxDuration, minPrice, maxPrice, pageable);
 
