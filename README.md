@@ -159,3 +159,10 @@ siis need kuvatakse eraldi tabelis koos kokku pandud hinnaga.
 | 3h      | Istekohtade soovitamise funktsionaalsuse väljatöötamine                                                                                                                                                               |
 
 
+### AI abi kasutamine
+
+- **CSS ja stiilid:** Enamik CSS-failidest on loodud AI abil, seejärel kohandatud käsitsi.
+- **Äärejuhtumid:** AI aitas tuvastada võimalikke äärejuhtumeid ning soovitas lisada logimisi ja veahaldust.
+- **IATA koodide ja linnade seosed:** Kasutatud `iata-cities.json`, mis sisaldab IATA koodide ja linnade vahelisi seoseid, on genereeritud AI abil.
+- **Projektistruktuur:** AI pakkus soovitusi, kuidas jaotada projekt loogilisteks komponentideks ja kuhu oma projektis paigutada uusi komponente.
+- **Dokumentatsioon:** Osa kirjeldustest ja juhistest on AI soovituste põhjal kohandatud.
